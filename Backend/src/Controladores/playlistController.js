@@ -169,14 +169,14 @@ export const Eliminar = async (req, res) => {
     const playlistEliminada = await PlayList.findByIdAndDelete(id);
 
     if (!playlistEliminada) {
-      return res.status(404).json({ message: "playlsit no encontrada" });
+      return res.status(404).json({ message: "Playlist no encontrada" });
     }
-    res.status(200).json({ message: "playlist eliminada con exito" });
+    res.status(200).json({ message: "Playlist eliminada con exito" });
   } catch (error) {
-    console.error("error al eliminra la playlsit", error.message);
+    console.error("Error al eliminar la playlist", error.message);
     res
       .status(500)
-      .json({ message: "Error al eliminar la cancion", error: error.message });
+      .json({ message: "Error al eliminar la playlist", error: error.message });
   }
 };
 

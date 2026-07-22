@@ -52,12 +52,7 @@
       "maximumError": "8kB"
     }
   ],
-  "outputHashing": "all",
-  "define": {
-    "process.env.VITE_API_URL": "\"https://tu-api-en-produccion.com\"",
-    "process.env.FRONTEND_URL": "\"https://auralis-music.vercel.app\""
-  
-}
+  "outputHashing": "all"
 
             },
             "development": {

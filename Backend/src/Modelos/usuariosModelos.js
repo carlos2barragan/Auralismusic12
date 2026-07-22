@@ -19,7 +19,8 @@ const usuarioSchema = new mongoose.Schema({
     perfilPublico: { type: Boolean, default: true },
     mostrarHistorial: { type: Boolean, default: true },
     notificaciones: { type: Boolean, default: true }
-  }
+  },
+  isVerified: { type: Boolean, default: false }
 }, { timestamps: true });
 
 const Usuario = mongoose.model("Usuario", usuarioSchema);

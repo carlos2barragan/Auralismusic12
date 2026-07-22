@@ -1,21 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { routes } from './app/app.routes';
-import { provideHttpClient } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { environment } from './environments/environment';
-bootstrapApplication(AppComponent, {
+import { appConfig } from './app/app.config';
 
-  providers: [
-    provideRouter(routes),
-    provideHttpClient(),
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule
-  ]
-})
-.catch(err => console.error(err));
-  console.log(environment);
+bootstrapApplication(AppComponent, appConfig)
+  .catch(err => console.error(err));

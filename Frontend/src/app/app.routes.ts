@@ -15,6 +15,9 @@ import { ArtistInfoComponent } from './pages/artist-info/artist-info.component';
 import { GenreComponent } from './pages/genre/genre.component';
 import { AdminSolicitudesComponent } from './pages/admin-solicitudes/admin-solicitudes.component';
 import { AdminGuard } from './guards/admin.guard';
+import { SpotifySearchComponent } from './pages/spotify-search/spotify-search.component';
+import { SpotifyImportComponent } from './pages/spotify-import/spotify-import.component';
+import { SpotifyCallbackComponent } from './pages/spotify-callback/spotify-callback.component';
 export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'playlist', component: Playlst, canActivate: [AuthGuard] },
@@ -29,6 +32,9 @@ export const routes: Routes = [
   { path: 'verificar-email', component: VerificarEmailComponent },
   { path: 'verificar/:token', component: VerificarComponent },
   { path: 'verificacion-exitosa', component: VerificacionExitosaComponent },
+  { path: 'spotify/search', component: SpotifySearchComponent, canActivate: [AuthGuard] },
+  { path: 'spotify/import', component: SpotifyImportComponent, canActivate: [AuthGuard] },
+  { path: 'spotify/callback', component: SpotifyCallbackComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },
 ];

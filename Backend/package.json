@@ -5,7 +5,7 @@
   "description": "Proyecto",
   "main": "app.js",
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "start": "node app.js",
     "seed": "node src/seeders/cancionesSeeders.js",

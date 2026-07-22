@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError, firstValueFrom } from 'rxjs';
 import { catchError, switchMap, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -130,7 +130,7 @@ export class SpotifyService {
     return new Observable(obs => {
       Promise.all(
         songs.map(s =>
-          this.itunesPreview(s.titulo, s.artista).toPromise()
+          firstValueFrom(this.itunesPreview(s.titulo, s.artista))
         )
       ).then(results => { obs.next(results as (string|null)[]); obs.complete(); })
        .catch(() => { obs.next(songs.map(() => null)); obs.complete(); });

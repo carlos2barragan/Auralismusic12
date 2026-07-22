@@ -12,10 +12,7 @@ export async function connectDB() {
             throw new Error("❌ No se encontró la URI de la base de datos en las variables de entorno.");
         }
 
-        await mongoose.connect(MONGODB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect(MONGODB_URI);
 
         console.log("✅ Conectado a la base de datos.");
     } catch (error) {

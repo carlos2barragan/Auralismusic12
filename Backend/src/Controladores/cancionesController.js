@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import Cantante from "../Modelos/cantanteModelos.js";
 import Canciones from "../Modelos/cancionesModelos.js";
-import path from "path";
 
 
 const buscarOCrearCantante = async (cantanteNombre) => {
@@ -107,7 +106,7 @@ export const Actualizar = async (req, res) => {
     const cancionActualizada = await Canciones.findByIdAndUpdate(
       id,
       { titulo, album, genero },
-      { new: true }
+      { new: true, runValidators: true }
     );
 
     if (!cancionActualizada) {

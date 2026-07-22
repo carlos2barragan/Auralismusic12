@@ -260,7 +260,7 @@ describe("ELIMINAR PLAYLIST", () => {
 
     await Eliminar(req, res);
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ message: "playlist eliminada con exito" });
+    expect(res.json).toHaveBeenCalledWith({ message: "Playlist eliminada con exito" });
   });
 
   it("Deberia retornar 400 si el ID no es válido", async () => {
@@ -279,7 +279,7 @@ describe("ELIMINAR PLAYLIST", () => {
 
     await Eliminar(req, res);
     expect(res.status).toHaveBeenCalledWith(404);
-    expect(res.json).toHaveBeenCalledWith({ message: "playlsit no encontrada" });
+    expect(res.json).toHaveBeenCalledWith({ message: "Playlist no encontrada" });
   });
 
   it("Deberia retornar 500 si ocurre un error", async () => {
