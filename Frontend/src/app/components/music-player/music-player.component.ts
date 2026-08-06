@@ -34,6 +34,8 @@ export class MusicPlayerComponent implements OnInit, OnDestroy {
   shuffleOn = false;
   repeatOn = false;
 
+  private userServiceSub: Subscription | null = null;
+
   constructor(
     private songService: SongService,
     private router: Router,
@@ -51,7 +53,8 @@ export class MusicPlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.songSubscription.unsubscribe();
+    this.songSubscription?.unsubscribe();
+    if (this.userServiceSub) this.userServiceSub.unsubscribe();
     this.destroySound();
     clearInterval(this.interval);
   }
@@ -74,7 +77,7 @@ export class MusicPlayerComponent implements OnInit, OnDestroy {
         this.trackProgress();
         const user = JSON.parse(localStorage.getItem('user') || 'null');
         if (user?._id && this.currentSong) {
-          this.userService.registerPlay(user._id, {
+          this.userServiceSub = this.userService.registerPlay(user._id, {
             cancionId: (this.currentSong as any)._id || '',
             titulo: this.currentSong.titulo || '',
             cantante: (this.currentSong.cantante as any)?.cantante || '',

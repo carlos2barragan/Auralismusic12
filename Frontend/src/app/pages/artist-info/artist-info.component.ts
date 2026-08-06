@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { HeaderComponent } from '../../components/header/header.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { ArtistService } from '../../services/artist.service';
@@ -15,7 +17,8 @@ import { Cancion } from '../../models/cancion.model';
   templateUrl: './artist-info.component.html',
   styleUrls: ['./artist-info.component.css'],
 })
-export class ArtistInfoComponent implements OnInit {
+export class ArtistInfoComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   artist: any = null;
   spotifyArtist: SpotifyArtist | null = null;
 
@@ -37,17 +40,22 @@ export class ArtistInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const id = params.get('id');
       if (id) this.loadArtist(id);
     });
-    this.songService.currentSong$.subscribe(s => this.currentSong = s);
-    this.songService.isPlaying$.subscribe(p => this.isPlaying = p);
+    this.songService.currentSong$.pipe(takeUntil(this.destroy$)).subscribe(s => this.currentSong = s);
+    this.songService.isPlaying$.pipe(takeUntil(this.destroy$)).subscribe(p => this.isPlaying = p);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   loadArtist(id: string): void {
     this.loading = true;
-    this.artistService.getArtist(id).subscribe({
+    this.artistService.getArtist(id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
         this.artist = data;
         this.dbSongs = Array.isArray(data.canciones) ? data.canciones : [];
@@ -66,7 +74,7 @@ export class ArtistInfoComponent implements OnInit {
       titulo: s.titulo,
       artista: s.cantante?.cantante || ''
     }));
-    this.spotifyService.enrichSongs(payload).subscribe({
+    this.spotifyService.enrichSongs(payload).pipe(takeUntil(this.destroy$)).subscribe({
       next: (results: any[]) => {
         const map = new Map(results.map(r => [r.id, r]));
         this.dbSongs = this.dbSongs.map((song: any) => {
@@ -87,7 +95,7 @@ export class ArtistInfoComponent implements OnInit {
 
   private loadSpotifyTracks(artistName: string): void {
     this.loadingSpotify = true;
-    this.spotifyService.getArtistByName(artistName).subscribe({
+    this.spotifyService.getArtistByName(artistName).pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.loadingSpotify = false;
         if (!result) return;

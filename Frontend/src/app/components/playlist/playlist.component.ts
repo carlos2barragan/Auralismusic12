@@ -1,7 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PlaylistService } from '../../services/playlist.service';
-import { catchError, of } from 'rxjs';
+import { catchError, of, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Cancion } from '../../models/cancion.model';
 import { Router } from '@angular/router';
@@ -13,7 +14,8 @@ import { SongService } from '../../services/song.service';
   styleUrls: ['./playlist.component.css'],
   standalone: true
 })
-export class PlaylistComponent implements OnInit {
+export class PlaylistComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   playlists: any[] = []; 
   selectedPlaylist: any = null;
   newSong = { title: '', artist: '', url: '', _id: '' }; 
@@ -31,7 +33,8 @@ export class PlaylistComponent implements OnInit {
  
   loadPlaylists() {
     this.playlistService.getPlaylists().pipe(
-      catchError(() => of([]))
+      catchError(() => of([])),
+      takeUntil(this.destroy$)
     ).subscribe((data) => {
       this.playlists = data || [];
     });
@@ -54,7 +57,8 @@ export class PlaylistComponent implements OnInit {
   addSong() {
     if (this.selectedPlaylist && this.newSong.title && this.newSong.artist && this.newSong.url) {
       this.playlistService.addSongToPlaylist(this.selectedPlaylist._id, this.newSong).pipe(
-        catchError(() => of(null))
+        catchError(() => of(null)),
+        takeUntil(this.destroy$)
       ).subscribe(() => {
         this.loadPlaylists();
         this.newSong = { title: '', artist: '', url: '', _id: '' };
@@ -62,6 +66,8 @@ export class PlaylistComponent implements OnInit {
     }
   }
 
-
-  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

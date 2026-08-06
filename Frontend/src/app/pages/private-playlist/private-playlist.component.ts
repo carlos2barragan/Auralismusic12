@@ -1,5 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { PlaylistService } from '../../services/playlist.service';
 import { SongService } from '../../services/song.service';
 import { CommonModule } from '@angular/common';
@@ -14,7 +16,8 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
   styleUrls: ['./private-playlist.component.css'],
   imports: [CommonModule, HeaderComponent, PlaylistUserComponent, SidebarComponent]
 })
-export class PrivatePlaylistComponent implements OnInit {
+export class PrivatePlaylistComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   playlist: any = null;
   canciones: any[] = [];
   currentSong: any = null;
@@ -38,7 +41,7 @@ export class PrivatePlaylistComponent implements OnInit {
   }
 
   cargarPlaylist(id: string) {
-    this.playlistService.getPlaylist(id).subscribe({
+    this.playlistService.getPlaylist(id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
     
   
@@ -87,6 +90,13 @@ export class PrivatePlaylistComponent implements OnInit {
     this.isPlaying = false;
     this.currentSong = null;
     this.showMusicPlayer = false;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.audioPlayer.pause();
+    this.audioPlayer.src = '';
   }
 
   playSidebarSong(song: any): void {

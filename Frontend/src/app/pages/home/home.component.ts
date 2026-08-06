@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { HeaderComponent } from '../../components/header/header.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { RandomSongListComponent } from '../../components/random-song-list/random-song-list.component';
@@ -25,7 +27,9 @@ import { Cancion } from '../../models/cancion.model';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  private loadRecentlyTimeout: ReturnType<typeof setTimeout> | null = null;
   currentSong: Cancion | null = null;
   isPlaying = false;
   showMusicPlayer = false;
@@ -48,18 +52,26 @@ export class HomeComponent implements OnInit {
   constructor(private songService: SongService, private spotifyService: SpotifyService) {}
 
   ngOnInit() {
-    this.songService.getMostPlayedSongs().subscribe(songs => {
+    this.songService.getMostPlayedSongs().pipe(takeUntil(this.destroy$)).subscribe(songs => {
       this.mostPlayedSongs = songs;
       this.buildQuickItems();
       this.deriveArtists();
       this.enrichSongs(songs);
       this.enrichArtists(songs.map((s: any) => s.cantante).filter(Boolean));
     });
-    this.songService.getRecentSongs().subscribe(songs => {
+    this.songService.getRecentSongs().pipe(takeUntil(this.destroy$)).subscribe(songs => {
       this.recentSongs = songs;
       this.enrichSongs(songs);
     });
     this.loadRecentlyPlayed();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    if (this.loadRecentlyTimeout) {
+      clearTimeout(this.loadRecentlyTimeout);
+    }
   }
 
   private loadRecentlyPlayed(): void {
@@ -77,7 +89,7 @@ export class HomeComponent implements OnInit {
       artista: s.cantante?.cantante || ''
     }));
     if (!payload.length) return;
-    this.spotifyService.enrichSongs(payload).subscribe({
+    this.spotifyService.enrichSongs(payload).pipe(takeUntil(this.destroy$)).subscribe({
       next: results => results.forEach((r: any) => {
         if (r.imagen) this.spotifyImages.set(r.id, r.imagen);
         if (r.externalUrl) this.spotifyLinks.set(r.id, r.externalUrl);
@@ -91,7 +103,7 @@ export class HomeComponent implements OnInit {
     const unique = [...new Map(artists.map((a: any) => [a._id, a])).values()].slice(0, 8);
     if (!unique.length) return;
     const payload = unique.map((a: any) => ({ id: a._id, nombre: a.cantante || a.nombre }));
-    this.spotifyService.enrichArtists(payload).subscribe({
+    this.spotifyService.enrichArtists(payload).pipe(takeUntil(this.destroy$)).subscribe({
       next: results => results.forEach((r: any) => {
         if (r.imagen) this.artistImages.set(r.id, r.imagen);
         if (r.externalUrl) this.artistLinks.set(r.id, r.externalUrl);
@@ -147,7 +159,8 @@ export class HomeComponent implements OnInit {
       nombre: song.cantante?.cantante || 'Artista desconocido',
       avatar: song.cantante?.avatar || this.defaultAvatar,
     };
-    setTimeout(() => this.loadRecentlyPlayed(), 500);
+    if (this.loadRecentlyTimeout) clearTimeout(this.loadRecentlyTimeout);
+    this.loadRecentlyTimeout = setTimeout(() => this.loadRecentlyPlayed(), 500);
   }
 
   playRandomSong() {

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { SongService } from '../../services/song.service';
 import { HeaderComponent } from '../../components/header/header.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
@@ -15,7 +17,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./subir-cancion.component.css'],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeaderComponent, SidebarComponent]
 })
-export class SubirCancionComponent implements OnInit {
+export class SubirCancionComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   cancionForm: FormGroup;
   cargando = false;
   archivoCancion: File | null = null;
@@ -106,7 +109,7 @@ export class SubirCancionComponent implements OnInit {
     if (this.archivoImagen) formData.append('imageCover', this.archivoImagen);
 
     this.cargando = true;
-    this.songService.subirCancion(formData).subscribe({
+    this.songService.subirCancion(formData).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.cargando = false;
         this.alert.success('¡Canción publicada!', 'Tu música ya está disponible en Auralis.')
@@ -123,5 +126,10 @@ export class SubirCancionComponent implements OnInit {
         this.alert.error('Error al subir', 'Hubo un problema. Intenta nuevamente.');
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
