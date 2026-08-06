@@ -1,5 +1,7 @@
 import Usuario from "../Modelos/usuariosModelos.js";
 import Cantante from "../Modelos/cantanteModelos.js";
+import Canciones from "../Modelos/cancionesModelos.js";
+import Seguidor from "../Modelos/seguidorModelos.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
@@ -183,6 +185,10 @@ const registrarPlay = async (req, res) => {
       $push: { historial: { $each: [{ cancion: cancionId, titulo, cantante, genero, fecha: new Date() }], $slice: -500 } }
     });
 
+    if (cancionId && mongoose.Types.ObjectId.isValid(cancionId)) {
+      await Canciones.findByIdAndUpdate(cancionId, { $inc: { plays: 1 } });
+    }
+
     res.status(200).json({ message: "Reproducción registrada" });
   } catch (error) {
     res.status(500).json({ message: "Error al registrar reproducción" });
@@ -237,4 +243,63 @@ const verificarEmail = async (req, res) => {
   }
 };
 
-export default { Registro, login, obtenerUsuarios, obtenerUsuario, actualizarUsuario, eliminarUsuario, updateUserRole, obtenerStats, registrarPlay, actualizarConfig, cambiarPassword, verificarEmail };
+const seguirUsuario = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const followerId = req.user._id;
+    if (followerId.toString() === id) return res.status(400).json({ message: "No puedes seguirte a ti mismo" });
+
+    const yaSigue = await Seguidor.findOne({ follower: followerId, following: id });
+    if (yaSigue) return res.status(400).json({ message: "Ya sigues a este usuario" });
+
+    await Seguidor.create({ follower: followerId, following: id });
+    res.status(200).json({ message: "Ahora sigues a este usuario" });
+  } catch (error) {
+    res.status(500).json({ message: "Error al seguir usuario" });
+  }
+};
+
+const dejarDeSeguir = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const followerId = req.user._id;
+    await Seguidor.findOneAndDelete({ follower: followerId, following: id });
+    res.status(200).json({ message: "Dejaste de seguir a este usuario" });
+  } catch (error) {
+    res.status(500).json({ message: "Error al dejar de seguir" });
+  }
+};
+
+const obtenerFollowers = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const count = await Seguidor.countDocuments({ following: id });
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener seguidores" });
+  }
+};
+
+const obtenerFollowing = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const count = await Seguidor.countDocuments({ follower: id });
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener seguidos" });
+  }
+};
+
+const isFollowing = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const followerId = req.user?._id;
+    if (!followerId) return res.status(200).json({ following: false });
+    const sigue = await Seguidor.findOne({ follower: followerId, following: id });
+    res.status(200).json({ following: !!sigue });
+  } catch (error) {
+    res.status(500).json({ message: "Error al verificar seguimiento" });
+  }
+};
+
+export default { Registro, login, obtenerUsuarios, obtenerUsuario, actualizarUsuario, eliminarUsuario, updateUserRole, obtenerStats, registrarPlay, actualizarConfig, cambiarPassword, verificarEmail, seguirUsuario, dejarDeSeguir, obtenerFollowers, obtenerFollowing, isFollowing };

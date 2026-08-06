@@ -117,6 +117,18 @@
 }
 .spotify-link:hover { background: rgba(29,185,84,0.2); }
 
+.follow-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; padding: 11px 22px; border-radius: 50px; font-size: 14px;
+  font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.follow-btn:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.3); }
+.follow-btn.following {
+  background: rgba(178,161,121,0.12); border-color: rgba(178,161,121,0.3); color: #B2A179;
+}
+.follow-btn.following:hover { background: rgba(178,161,121,0.2); }
+
 /* ── Two-column body ── */
 .artist-body {
   display: grid;

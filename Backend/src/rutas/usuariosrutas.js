@@ -21,4 +21,10 @@ router.patch("/Usuario/:id/password", tokenValido, usuariosController.cambiarPas
 
 router.get("/verificar/:token", usuariosController.verificarEmail);
 
+router.post("/Usuario/:id/follow", tokenValido, usuariosController.seguirUsuario);
+router.delete("/Usuario/:id/follow", tokenValido, usuariosController.dejarDeSeguir);
+router.get("/Usuario/:id/followers", usuariosController.obtenerFollowers);
+router.get("/Usuario/:id/following", usuariosController.obtenerFollowing);
+router.get("/Usuario/:id/is-following", usuariosController.isFollowing);
+
 export default router;

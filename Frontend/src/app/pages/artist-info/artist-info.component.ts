@@ -8,6 +8,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { ArtistService } from '../../services/artist.service';
 import { SongService } from '../../services/song.service';
 import { SpotifyService, SpotifyTrack, SpotifyArtist } from '../../services/spotify.service';
+import { FollowService } from '../../services/follow.service';
 import { Cancion } from '../../models/cancion.model';
 import { CLOUDINARY } from '../../shared/constants';
 
@@ -30,6 +31,9 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
   isPlaying = false;
   loading = true;
   loadingSpotify = false;
+  isFollowing = false;
+  followerCount = 0;
+  private artistUserId: string | null = null;
 
   readonly defaultAvatar = CLOUDINARY.defaultAvatar;
 
@@ -37,7 +41,8 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private artistService: ArtistService,
     private songService: SongService,
-    private spotifyService: SpotifyService
+    private spotifyService: SpotifyService,
+    private followService: FollowService
   ) {}
 
   ngOnInit(): void {
@@ -56,6 +61,8 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
 
   loadArtist(id: string): void {
     this.loading = true;
+    this.artistUserId = id;
+    this.loadFollowInfo(id);
     this.artistService.getArtist(id).pipe(takeUntil(this.destroy$)).subscribe({
       next: (data) => {
         this.artist = data;
@@ -168,6 +175,38 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
 
   getAvatar(collab: any): string {
     return collab?.avatar || this.defaultAvatar;
+  }
+
+  private loadFollowInfo(userId: string): void {
+    this.followService.isFollowing(userId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (res) => this.isFollowing = res.following,
+      error: () => {}
+    });
+    this.followService.getFollowers(userId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (res) => this.followerCount = res.count,
+      error: () => {}
+    });
+  }
+
+  toggleFollow(): void {
+    if (!this.artistUserId) return;
+    if (this.isFollowing) {
+      this.followService.unfollow(this.artistUserId).pipe(takeUntil(this.destroy$)).subscribe({
+        next: () => { this.isFollowing = false; this.followerCount = Math.max(0, this.followerCount - 1); },
+        error: () => {}
+      });
+    } else {
+      this.followService.follow(this.artistUserId).pipe(takeUntil(this.destroy$)).subscribe({
+        next: () => { this.isFollowing = true; this.followerCount++; },
+        error: () => {}
+      });
+    }
+  }
+
+  formatFollowers(n: number): string {
+    if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
+    if (n >= 1_000) return (n / 1_000).toFixed(0) + 'K';
+    return String(n);
   }
 
   get artistAvatar(): string {
