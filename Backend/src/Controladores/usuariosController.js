@@ -246,7 +246,7 @@ const verificarEmail = async (req, res) => {
 const seguirUsuario = async (req, res) => {
   try {
     const { id } = req.params;
-    const followerId = req.user._id;
+    const followerId = req.usuario.id;
     if (followerId.toString() === id) return res.status(400).json({ message: "No puedes seguirte a ti mismo" });
 
     const yaSigue = await Seguidor.findOne({ follower: followerId, following: id });
@@ -262,7 +262,7 @@ const seguirUsuario = async (req, res) => {
 const dejarDeSeguir = async (req, res) => {
   try {
     const { id } = req.params;
-    const followerId = req.user._id;
+    const followerId = req.usuario.id;
     await Seguidor.findOneAndDelete({ follower: followerId, following: id });
     res.status(200).json({ message: "Dejaste de seguir a este usuario" });
   } catch (error) {
@@ -293,7 +293,7 @@ const obtenerFollowing = async (req, res) => {
 const isFollowing = async (req, res) => {
   try {
     const { id } = req.params;
-    const followerId = req.user?._id;
+    const followerId = req.usuario?.id;
     if (!followerId) return res.status(200).json({ following: false });
     const sigue = await Seguidor.findOne({ follower: followerId, following: id });
     res.status(200).json({ following: !!sigue });

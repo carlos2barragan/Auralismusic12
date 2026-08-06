@@ -196,7 +196,7 @@ export const getArtistData = async (req, res) => {
     });
   } catch (err) {
     console.error("❌ Error obteniendo artista:", err.response?.data || err.message);
-    res.status(500).json({ message: "Error al obtener el artista" });
+    res.status(200).json({ artist: null, topTracks: [] });
   }
 };
 
