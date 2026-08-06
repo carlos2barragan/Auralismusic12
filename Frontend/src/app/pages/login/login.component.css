@@ -1,254 +1,109 @@
-/* ── Scene ── */
 .auth-scene {
   position: fixed;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse at 20% 50%, #000000 0%, #000000 60%, #000 100%);
+  background: var(--bg-primary);
   overflow: hidden;
-  perspective: 1200px;
 }
 
-/* ── Background orbs ── */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-  animation: orbFloat linear infinite;
-}
-.orb-1 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(178,161,121,0.18) 0%, transparent 70%);
-  top: -120px; left: -100px;
-  animation-duration: 18s;
-}
-.orb-2 {
-  width: 380px; height: 380px;
-  background: radial-gradient(circle, rgba(255, 255, 255,0.22) 0%, transparent 70%);
-  bottom: -80px; right: -60px;
-  animation-duration: 22s;
-  animation-direction: reverse;
-}
-.orb-3 {
-  width: 280px; height: 280px;
-  background: radial-gradient(circle, rgba(255, 255, 255,0.15) 0%, transparent 70%);
-  top: 40%; left: 60%;
-  animation-duration: 14s;
-}
-.orb-4 {
-  width: 220px; height: 220px;
-  background: radial-gradient(circle, rgba(255,100,150,0.12) 0%, transparent 70%);
-  bottom: 20%; left: 10%;
-  animation-duration: 26s;
-  animation-direction: reverse;
-}
-@keyframes orbFloat {
-  0%   { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(30px, -40px) scale(1.05); }
-  66%  { transform: translate(-20px, 20px) scale(0.97); }
-  100% { transform: translate(0, 0) scale(1); }
-}
-
-/* ── Grid overlay ── */
-.grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(178,161,121,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(178,161,121,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-}
-
-/* ── Floating music notes ── */
-.note {
-  position: absolute;
-  color: rgba(178,161,121,0.35);
-  pointer-events: none;
-  animation: noteFloat linear infinite;
-  user-select: none;
-}
-.n1 { left: 8%;  bottom: -30px; animation-duration: 12s; animation-delay: 0s;   font-size: 18px; }
-.n2 { left: 25%; bottom: -30px; animation-duration: 16s; animation-delay: 3s;   font-size: 26px; }
-.n3 { left: 50%; bottom: -30px; animation-duration: 10s; animation-delay: 1.5s; font-size: 14px; }
-.n4 { left: 72%; bottom: -30px; animation-duration: 18s; animation-delay: 5s;   font-size: 22px; }
-.n5 { left: 88%; bottom: -30px; animation-duration: 13s; animation-delay: 2s;   font-size: 20px; }
-
-@keyframes noteFloat {
-  0%   { transform: translateY(0)   rotate(0deg);   opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 0.4; }
-  100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
-}
-
-/* ── Card perspective wrapper ── */
-.card-perspective {
-  position: relative;
-  z-index: 10;
-  transform-style: preserve-3d;
-}
-
-/* ── Auth card ── */
 .auth-card {
-  position: relative;
   width: 420px;
-  transform-style: preserve-3d;
-  transition: transform 0.08s linear;
-  animation: cardIn 0.7s cubic-bezier(0.22,1,0.36,1) both;
+  animation: cardIn 0.4s ease both;
 }
 
 @keyframes cardIn {
-  from { opacity: 0; transform: translateY(40px) scale(0.94); }
-  to   { opacity: 1; transform: translateY(0)    scale(1); }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Decorative rings ── */
-.ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(178,161,121,0.15);
-  pointer-events: none;
-  top: 50%; left: 50%;
-}
-.ring-1 {
-  width: 480px; height: 480px;
-  margin: -240px 0 0 -240px;
-  animation: spin 20s linear infinite;
-  border-color: rgba(178,161,121,0.12);
-  border-top-color: rgba(178,161,121,0.5);
-}
-.ring-2 {
-  width: 540px; height: 540px;
-  margin: -270px 0 0 -270px;
-  animation: spin 32s linear infinite reverse;
-  border-color: rgba(255, 255, 255,0.1);
-  border-right-color: rgba(255, 255, 255,0.4);
-}
-.ring-3 {
-  width: 420px; height: 420px;
-  margin: -210px 0 0 -210px;
-  animation: spin 14s linear infinite;
-  border-color: rgba(255, 255, 255,0.08);
-  border-bottom-color: rgba(255, 255, 255,0.3);
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* ── Glass card inner ── */
 .card-inner {
-  position: relative;
-  z-index: 2;
-  background: rgba(12, 12, 12, 0.72);
-  border: 1px solid rgba(178,161,121,0.22);
-  border-radius: 24px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
   padding: 44px 40px 36px;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.04),
-    0 40px 80px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.07);
 }
 
-/* ── Logo ── */
 .logo-wrap {
-  position: relative;
   display: flex;
   justify-content: center;
   margin-bottom: 28px;
 }
+
 .logo {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
-  border-radius: 50%;
-  border: 2px solid rgba(178,161,121,0.4);
-  box-shadow: 0 0 24px rgba(178,161,121,0.25);
-}
-.logo-glow {
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(178,161,121,0.2) 0%, transparent 65%);
-  pointer-events: none;
+  border-radius: var(--radius-md);
 }
 
-/* ── Titles ── */
 .card-title {
-  font-size: 28px;
-  font-weight: 800;
-  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
   text-align: center;
   margin: 0 0 6px;
   letter-spacing: -0.5px;
 }
+
 .card-subtitle {
   font-size: 14px;
-  color: #8888a0;
+  color: var(--text-secondary);
   text-align: center;
   margin: 0 0 28px;
 }
 
-/* ── Form & floating labels ── */
-.auth-form { display: flex; flex-direction: column; gap: 20px; }
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
 .field {
   position: relative;
 }
+
 .field input {
   width: 100%;
   padding: 18px 16px 6px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(178,161,121,0.2);
-  border-radius: 12px;
-  color: #fff;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
   font-size: 15px;
   outline: none;
   transition: border-color 0.2s, background 0.2s;
   box-sizing: border-box;
 }
+
 .field input:focus {
-  border-color: rgba(178,161,121,0.7);
-  background: rgba(255,255,255,0.07);
+  border-color: var(--border-default);
+  background: var(--bg-active);
 }
+
 .field label {
   position: absolute;
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 15px;
-  color: rgba(136,136,160,0.8);
+  color: var(--text-tertiary);
   pointer-events: none;
   transition: top 0.18s, font-size 0.18s, color 0.18s, transform 0.18s;
 }
+
 .field input:focus ~ label,
 .field input:not(:placeholder-shown) ~ label {
   top: 8px;
   transform: none;
   font-size: 11px;
-  color: #B2A179;
+  color: var(--accent);
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-.field-line {
-  position: absolute;
-  bottom: 0;
-  left: 16px;
-  right: 16px;
-  height: 1px;
-  background: rgba(178,161,121,0);
-  border-radius: 1px;
-  transition: background 0.2s;
-}
-.field input:focus ~ .field-line {
-  background: rgba(178,161,121,0.5);
-}
 
-/* ── Eye button ── */
 .eye-btn {
   position: absolute;
   right: 12px;
@@ -260,89 +115,74 @@
   font-size: 18px;
   line-height: 1;
   padding: 4px;
-  color: #8888a0;
+  color: var(--text-tertiary);
   transition: color 0.2s;
 }
-.eye-btn:hover { color: #B2A179; }
 
-/* ── Error ── */
+.eye-btn:hover {
+  color: var(--accent);
+}
+
 .error-msg {
-  background: rgba(255,80,80,0.1);
-  border: 1px solid rgba(255,80,80,0.3);
-  border-radius: 10px;
+  background: rgba(255, 60, 60, 0.08);
+  border: 1px solid rgba(255, 60, 60, 0.2);
+  border-radius: var(--radius-sm);
   padding: 10px 14px;
   font-size: 13px;
-  color: #ff8080;
-  animation: shake 0.35s ease;
-}
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  25%      { transform: translateX(-6px); }
-  75%      { transform: translateX(6px); }
+  color: #e06060;
 }
 
-/* ── Submit button ── */
 .submit-btn {
-  position: relative;
-  overflow: hidden;
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #B2A179 0%, #d4bc90 50%, #B2A179 100%);
-  background-size: 200% 100%;
+  background: var(--accent);
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: #000000;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  letter-spacing: 0.04em;
-  transition: background-position 0.4s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 4px 20px rgba(178,161,121,0.35);
+  letter-spacing: 0.02em;
+  transition: opacity 0.15s;
 }
+
 .submit-btn:hover {
-  background-position: 100% 0;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 30px rgba(178,161,121,0.5);
-}
-.submit-btn:active { transform: translateY(0); }
-
-.btn-text { position: relative; z-index: 1; }
-
-.btn-shine {
-  position: absolute;
-  top: 0; left: -120%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
-  transform: skewX(-20deg);
-  animation: shine 3s ease infinite;
-}
-@keyframes shine {
-  0%   { left: -120%; }
-  40%  { left: 160%; }
-  100% { left: 160%; }
+  opacity: 0.88;
 }
 
-/* ── Switch link ── */
+.submit-btn:active {
+  opacity: 0.8;
+}
+
+.btn-text {
+  position: relative;
+  z-index: 1;
+}
+
 .switch-link {
   margin-top: 20px;
   text-align: center;
   font-size: 14px;
-  color: #8888a0;
+  color: var(--text-secondary);
 }
+
 .switch-link a {
-  color: #B2A179;
+  color: var(--accent);
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.2s;
+  transition: opacity 0.15s;
 }
-.switch-link a:hover { color: #d4bc90; text-decoration: underline; }
 
-/* ── Responsive ── */
+.switch-link a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
 @media (max-width: 480px) {
-  .auth-card { width: 94vw; }
-  .card-inner { padding: 32px 22px 28px; }
-  .ring-1 { width: 360px; height: 360px; margin: -180px 0 0 -180px; }
-  .ring-2 { width: 420px; height: 420px; margin: -210px 0 0 -210px; }
-  .ring-3 { width: 300px; height: 300px; margin: -150px 0 0 -150px; }
+  .auth-card {
+    width: 94vw;
+  }
+  .card-inner {
+    padding: 32px 22px 28px;
+  }
 }

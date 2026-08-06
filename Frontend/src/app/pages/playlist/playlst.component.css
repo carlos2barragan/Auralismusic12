@@ -8,68 +8,55 @@
   margin-top: 64px;
   padding-bottom: 110px;
   min-height: calc(100vh - 64px);
-  background: #000000;
-  animation: pageIn 0.35s cubic-bezier(0.22,1,0.36,1) both;
+  background: var(--bg-primary);
+  animation: pageIn 0.35s ease both;
 }
 
-/* ── Hero ── */
 .page-hero {
-  position: relative;
   padding: 52px 40px 36px;
-  overflow: hidden;
-  background: linear-gradient(180deg, #000000 0%, #000000 100%);
 }
-.hero-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
+
+.hero-body {
+  position: relative;
+  z-index: 1;
 }
-.hero-orb-1 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(178,161,121,0.1) 0%, transparent 65%);
-  top: -150px; right: -80px;
-}
-.hero-orb-2 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(255, 255, 255,0.1) 0%, transparent 65%);
-  bottom: -100px; left: 100px;
-}
-.hero-body { position: relative; z-index: 1; }
+
 .hero-eyebrow {
   display: block;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #B2A179;
+  color: var(--accent);
   margin-bottom: 8px;
 }
+
 .hero-title {
   font-size: 40px;
   font-weight: 900;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 8px;
   letter-spacing: -1px;
-  background: linear-gradient(135deg, #fff 40%, #B2A179 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
+
 .hero-sub {
   font-size: 15px;
-  color: #8888a0;
+  color: var(--text-secondary);
   margin: 0;
 }
 
-/* ── Playlists section ── */
 .playlists-section {
   padding: 32px 40px;
 }
 
-/* ── Responsive ── */
 @media (max-width: 768px) {
-  .page-hero { padding: 32px 20px 24px; }
-  .hero-title { font-size: 28px; }
-  .playlists-section { padding: 24px 20px; }
+  .page-hero {
+    padding: 32px 20px 24px;
+  }
+  .hero-title {
+    font-size: 28px;
+  }
+  .playlists-section {
+    padding: 24px 20px;
+  }
 }

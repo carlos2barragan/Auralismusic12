@@ -1,103 +1,51 @@
-<div class="player" *ngIf="currentSong" [class.playing]="isPlaying">
-
-  <!-- Ambient glow behind player -->
-  <div class="player-glow"></div>
-
-  <!-- ── LEFT: song info ── -->
-  <div class="player-left">
-    <div class="vinyl-wrap" [class.spinning]="isPlaying">
-      <img class="vinyl-cover"
-           [src]="currentSong?.imagen || 'assets/default-cover.jpg'"
-           [alt]="currentSong?.titulo" />
-      <div class="vinyl-rings"></div>
-      <div class="vinyl-hole"></div>
+<div class="player" *ngIf="currentSong">
+  <div class="player-info">
+    <img [src]="currentSong?.imagen || 'assets/default-cover.jpg'" [alt]="currentSong?.titulo" class="player-cover"/>
+    <div class="player-text">
+      <span class="player-title">{{ currentSong?.titulo || 'Sin título' }}</span>
+      <a class="player-artist" (click)="goToArtist()" *ngIf="currentSong?.cantante">{{ currentSong.cantante.cantante }}</a>
     </div>
-
-    <div class="song-info">
-      <span class="song-title">{{ currentSong?.titulo || 'Sin título' }}</span>
-      <a class="song-artist" (click)="goToArtist()" *ngIf="currentSong?.cantante">
-        {{ currentSong.cantante.cantante }}
-      </a>
-    </div>
-
-    <button class="icon-btn like-btn" [class.liked]="liked" (click)="toggleLike()" title="Me gusta">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
-      </svg>
-    </button>
   </div>
 
-  <!-- ── CENTER: controls + progress ── -->
-  <div class="player-center">
-    <div class="controls">
+  <div class="player-controls">
+    <div class="player-buttons">
       <button class="ctrl-btn" [class.active]="shuffleOn" (click)="toggleShuffle()" title="Aleatorio">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-          <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6"/></svg>
       </button>
-
       <button class="ctrl-btn" (click)="prevSong()" title="Anterior">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-          <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
       </button>
-
-      <button class="play-btn" (click)="togglePlay()" [title]="isPlaying ? 'Pausar' : 'Reproducir'">
-        <div class="play-btn-inner">
-          <!-- Play icon -->
-          <svg *ngIf="!isPlaying" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-          <!-- Pause icon -->
-          <svg *ngIf="isPlaying" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-          </svg>
-        </div>
+      <button class="play-btn" (click)="togglePlay()">
+        <svg *ngIf="!isPlaying" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M8 5v14l11-7z"/></svg>
+        <svg *ngIf="isPlaying" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
       </button>
-
       <button class="ctrl-btn" (click)="nextSong()" title="Siguiente">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-          <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
       </button>
-
       <button class="ctrl-btn" [class.active]="repeatOn" (click)="toggleRepeat()" title="Repetir">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-          <path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
       </button>
     </div>
-
-    <!-- Progress bar -->
     <div class="progress-row">
-      <span class="time-label">{{ formatTime(currentTime) }}</span>
-      <div class="prog-track" (click)="seekClick($event)" #progTrack>
-        <div class="prog-bg"></div>
-        <div class="prog-fill" [style.width.%]="progress"></div>
-        <div class="prog-thumb" [style.left.%]="progress"></div>
+      <span class="progress-time">{{ formatTime(currentTime) }}</span>
+      <div class="progress-bar" (click)="seekClick($event)">
+        <div class="progress-fill" [style.width.%]="progress"></div>
       </div>
-      <span class="time-label">{{ formatTime(duration) }}</span>
+      <span class="progress-time">{{ formatTime(duration) }}</span>
     </div>
   </div>
 
-  <!-- ── RIGHT: volume + extras ── -->
-  <div class="player-right">
-    <button class="icon-btn" (click)="toggleMute()" title="Volumen">
-      <svg *ngIf="volume > 0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
-      </svg>
-      <svg *ngIf="volume > 0 && volume <= 0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-      </svg>
-      <svg *ngIf="volume === 0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
-      </svg>
-    </button>
-    <div class="vol-track" (click)="seekVolume($event)" #volTrack>
-      <div class="vol-bg"></div>
-      <div class="vol-fill" [style.width.%]="volume * 100"></div>
-      <div class="vol-thumb" [style.left.%]="volume * 100"></div>
+  <div class="player-extra">
+    <div class="volume-row">
+      <button class="ctrl-btn" (click)="toggleMute()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path *ngIf="volume > 0" d="M15.54 8.46a5 5 0 010 7.07"/>
+          <line *ngIf="volume === 0" x1="23" y1="9" x2="17" y2="15"/><line *ngIf="volume === 0" x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+      </button>
+      <div class="volume-bar" (click)="seekVolume($event)">
+        <div class="volume-fill" [style.width.%]="volume * 100"></div>
+      </div>
     </div>
   </div>
-
 </div>

@@ -1,5 +1,4 @@
 <header class="header">
-  <!-- Left: hamburger + logo -->
   <div class="header-left">
     <button class="hamburger" [class.is-open]="sidebarOpen" (click)="toggleSidebar()" aria-label="Menú">
       <span></span><span></span><span></span>
@@ -9,7 +8,6 @@
     </a>
   </div>
 
-  <!-- Center: search -->
   <div class="header-search" [class.expanded]="isSearchOpen || searchQuery.length > 0">
     <svg class="hs-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
       <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
@@ -30,15 +28,14 @@
       </svg>
     </button>
 
-    <!-- Results dropdown -->
     <div class="hs-dropdown" *ngIf="isSearchOpen && searchQuery">
-
-      <!-- DB results -->
       <ng-container *ngIf="dbResults.length > 0">
         <div class="hs-section-label">En Auralis</div>
         <div class="hs-item" *ngFor="let song of dbResults; let i = index" [style.--i]="i" (click)="playSong(song)">
           <img *ngIf="song.imagen" [src]="songImageUrl(song)" [alt]="song.titulo" class="hs-img"/>
-          <div class="hs-fallback-img" *ngIf="!song.imagen">♪</div>
+          <div class="hs-fallback-img" *ngIf="!song.imagen">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M9 18V5l12-2v13"/></svg>
+          </div>
           <div class="hs-body">
             <span class="hs-title">{{ song.titulo || 'Sin título' }}</span>
             <span class="hs-artist">{{ song.cantante?.cantante || 'Artista' }}</span>
@@ -49,7 +46,6 @@
         </div>
       </ng-container>
 
-      <!-- Spotify tracks -->
       <ng-container *ngIf="spotifyTracks.length > 0">
         <div class="hs-section-label hs-spotify-label">
           <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11" style="color:#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
@@ -57,10 +53,12 @@
         </div>
         <div class="hs-item hs-spotify-item" *ngFor="let t of spotifyTracks; let i = index" [style.--i]="i + dbResults.length" (click)="playSpotifyTrack(t)">
           <img *ngIf="t.imagen" [src]="t.imagen" [alt]="t.titulo" class="hs-img"/>
-          <div class="hs-fallback-img hs-spotify-fallback" *ngIf="!t.imagen">🎵</div>
+          <div class="hs-fallback-img hs-spotify-fallback" *ngIf="!t.imagen">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M9 18V5l12-2v13"/></svg>
+          </div>
           <div class="hs-body">
             <span class="hs-title">{{ t.titulo }}</span>
-            <span class="hs-artist">{{ t.artista }} · {{ t.album }}</span>
+            <span class="hs-artist">{{ t.artista }} &middot; {{ t.album }}</span>
           </div>
           <button class="hs-play hs-spotify-play" title="Reproducir preview">
             <svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10"><path d="M5 3l14 9-14 9V3z"/></svg>
@@ -68,15 +66,16 @@
         </div>
       </ng-container>
 
-      <!-- Spotify artists -->
       <ng-container *ngIf="spotifyArtists.length > 0">
         <div class="hs-section-label hs-spotify-label hs-artist-label">Artistas en Spotify</div>
         <div class="hs-item hs-artist-item" *ngFor="let a of spotifyArtists; let i = index" [style.--i]="i + dbResults.length + spotifyTracks.length">
           <img *ngIf="a.imagen" [src]="a.imagen" [alt]="a.nombre" class="hs-img hs-img-round"/>
-          <div class="hs-fallback-img hs-img-round hs-spotify-fallback" *ngIf="!a.imagen">🎤</div>
+          <div class="hs-fallback-img hs-img-round hs-spotify-fallback" *ngIf="!a.imagen">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </div>
           <div class="hs-body">
             <span class="hs-title">{{ a.nombre }}</span>
-            <span class="hs-artist">{{ a.generos[0] || 'Artista' }} · {{ a.seguidores | number }} seguidores</span>
+            <span class="hs-artist">{{ a.generos[0] || 'Artista' }} &middot; {{ a.seguidores | number }} seguidores</span>
           </div>
           <a class="hs-play hs-ext-play" [href]="a.externalUrl" target="_blank" (click)="$event.stopPropagation()" title="Ver en Spotify">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
@@ -84,7 +83,6 @@
         </div>
       </ng-container>
 
-      <!-- Empty -->
       <p class="hs-empty" *ngIf="!hasResults && !searchLoading">
         Sin resultados para "{{ searchQuery }}"
       </p>
@@ -94,27 +92,30 @@
     </div>
   </div>
 
-  <!-- Right: account -->
   <div class="header-right">
-    <div class="dropdown">
-      <button class="account-btn" (click)="toggleMenu(); $event.stopPropagation()">
-        <span class="avatar-icon">♪</span>
+    <div class="profile-dropdown">
+      <button class="profile-btn" (click)="toggleMenu(); $event.stopPropagation()">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
         <span class="account-label">Mi cuenta</span>
-        <span class="chevron" [class.open]="menuOpen">▾</span>
+        <svg class="chevron" [class.open]="menuOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M6 9l6 6 6-6"/></svg>
       </button>
       <div class="dropdown-menu" [class.show]="menuOpen">
         <a routerLink="/profile" class="dropdown-item" (click)="menuOpen = false">
-          <span class="item-icon">👤</span> Mi perfil
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Mi perfil
         </a>
         <a routerLink="/playlist" class="dropdown-item" (click)="menuOpen = false">
-          <span class="item-icon">🎵</span> Mis playlists
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          Mis playlists
         </a>
         <a routerLink="/subir" class="dropdown-item" (click)="menuOpen = false">
-          <span class="item-icon">⬆️</span> Subir canción
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Subir canción
         </a>
-        <div class="divider"></div>
+        <div class="dropdown-divider"></div>
         <a class="dropdown-item logout" (click)="logout()">
-          <span class="item-icon">🚪</span> Cerrar sesión
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Cerrar sesión
         </a>
       </div>
     </div>
