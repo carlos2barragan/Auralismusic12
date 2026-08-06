@@ -106,10 +106,13 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
     this.spotifyService.getArtistByName(artistName).pipe(takeUntil(this.destroy$)).subscribe({
       next: (result) => {
         this.loadingSpotify = false;
-        if (!result) return;
+        if (!result || !result.artist) {
+          this.spotifyArtist = null;
+          this.spotifySongs = [];
+          return;
+        }
         this.spotifyArtist = result.artist;
 
-        // Replace DB avatar with Spotify image if better
         if (result.artist.imagen && this.artist) {
           this.artist = { ...this.artist, avatar: result.artist.imagen };
         }
@@ -190,6 +193,7 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
 
   toggleFollow(): void {
     if (!this.artistUserId) return;
+    if (!this.isLoggedIn()) return;
     if (this.isFollowing) {
       this.followService.unfollow(this.artistUserId).pipe(takeUntil(this.destroy$)).subscribe({
         next: () => { this.isFollowing = false; this.followerCount = Math.max(0, this.followerCount - 1); },
@@ -207,6 +211,10 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
     if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
     if (n >= 1_000) return (n / 1_000).toFixed(0) + 'K';
     return String(n);
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('user_token');
   }
 
   get artistAvatar(): string {
