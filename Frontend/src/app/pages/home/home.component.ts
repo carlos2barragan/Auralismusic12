@@ -10,6 +10,7 @@ import { MostPlayedSongsComponent } from '../../components/most-played-songs/mos
 import { RecentSongsComponent } from '../../components/recent-songs/recent-songs.component';
 import { PremiumModalComponent } from '../../components/premium-modal/premium-modal.component';
 import { AdModalComponent } from '../../components/ad-modal/ad-modal.component';
+import { FollowingPanelComponent } from '../../components/following-panel/following-panel.component';
 import { SongService } from '../../services/song.service';
 import { SpotifyService } from '../../services/spotify.service';
 import { AdService } from '../../services/ad.service';
@@ -30,6 +31,7 @@ import { CLOUDINARY, buildCloudinaryUrl } from '../../shared/constants';
     RecentSongsComponent,
     PremiumModalComponent,
     AdModalComponent,
+    FollowingPanelComponent,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -37,6 +39,7 @@ import { CLOUDINARY, buildCloudinaryUrl } from '../../shared/constants';
 export class HomeComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private loadRecentlyTimeout: ReturnType<typeof setTimeout> | null = null;
+  private adTimer: ReturnType<typeof setTimeout> | null = null;
   currentSong: Cancion | null = null;
   isPlaying = false;
   showMusicPlayer = false;
@@ -109,8 +112,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   private checkPremiumAndAds(): void {
     this.isPremiumUser = this.premiumService.isPremium();
     if (!this.isPremiumUser) {
-      setTimeout(() => { this.pickRandomAd(); }, 8000);
+      this.adTimer = setTimeout(() => { this.pickRandomAd(); }, 8000);
     }
+  }
+
+  private scheduleNextAd(): void {
+    if (this.adTimer) clearTimeout(this.adTimer);
+    this.adTimer = setTimeout(() => { this.pickRandomAd(); }, 60000);
   }
 
   private pickRandomAd(): void {
@@ -149,7 +157,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   onAdClosed(): void {
     this.showAd = false;
     if (!this.isPremiumUser) {
-      setTimeout(() => { this.pickRandomAd(); }, 60000);
+      this.scheduleNextAd();
     }
   }
 
@@ -160,6 +168,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   onPremiumUpgraded(): void {
     this.isPremiumUser = true;
     this.showAd = false;
+    if (this.adTimer) {
+      clearTimeout(this.adTimer);
+      this.adTimer = null;
+    }
   }
 
   ngOnDestroy(): void {
@@ -167,6 +179,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
     if (this.loadRecentlyTimeout) {
       clearTimeout(this.loadRecentlyTimeout);
+    }
+    if (this.adTimer) {
+      clearTimeout(this.adTimer);
     }
   }
 

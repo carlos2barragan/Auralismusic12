@@ -24,4 +24,8 @@ export class FollowService {
   isFollowing(userId: string): Observable<{ following: boolean }> {
     return this.http.get<{ following: boolean }>(`${this.apiUrl}/${userId}/is-following`);
   }
+
+  getSeguidos(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${userId}/seguidos`);
+  }
 }

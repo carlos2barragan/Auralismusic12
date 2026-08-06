@@ -27,5 +27,6 @@ router.get("/Usuario/:id/followers", usuariosController.obtenerFollowers);
 router.get("/Usuario/:id/following", usuariosController.obtenerFollowing);
 router.get("/Usuario/:id/is-following", usuariosController.isFollowing);
 router.patch("/Usuario/:id/premium", tokenValido, usuariosController.upgradeToPremium);
+router.get("/Usuario/:id/seguidos", usuariosController.obtenerSeguidos);
 
 export default router;

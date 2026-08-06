@@ -314,4 +314,19 @@ const upgradeToPremium = async (req, res) => {
   }
 };
 
-export default { Registro, login, obtenerUsuarios, obtenerUsuario, actualizarUsuario, eliminarUsuario, updateUserRole, obtenerStats, registrarPlay, actualizarConfig, cambiarPassword, verificarEmail, seguirUsuario, dejarDeSeguir, obtenerFollowers, obtenerFollowing, isFollowing, upgradeToPremium };
+const obtenerSeguidos = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const follows = await Seguidor.find({ follower: id }).populate("following", "nombre avatar");
+    const seguidos = follows.map(f => ({
+      _id: f.following._id,
+      nombre: f.following.nombre,
+      avatar: f.following.avatar,
+    }));
+    res.status(200).json(seguidos);
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener seguidos" });
+  }
+};
+
+export default { Registro, login, obtenerUsuarios, obtenerUsuario, actualizarUsuario, eliminarUsuario, updateUserRole, obtenerStats, registrarPlay, actualizarConfig, cambiarPassword, verificarEmail, seguirUsuario, dejarDeSeguir, obtenerFollowers, obtenerFollowing, isFollowing, upgradeToPremium, obtenerSeguidos };

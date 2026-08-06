@@ -1,0 +1,22 @@
+<div class="fp-container" [class.expanded]="expanded" *ngIf="following.length > 0">
+
+  <button class="fp-toggle" (click)="toggle()" [title]="expanded ? 'Colapsar' : 'Expandir'">
+    <span class="fp-count" *ngIf="!expanded">{{ following.length }}</span>
+    <span class="fp-label" *ngIf="expanded">Seguidos</span>
+    <svg class="fp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14">
+      <path d="M15 18l-6-6 6-6"/>
+    </svg>
+  </button>
+
+  <div class="fp-list">
+    <a
+      *ngFor="let user of following"
+      class="fp-item"
+      [routerLink]="['/artist', user._id]"
+      [title]="user.nombre">
+      <img [src]="getAvatar(user)" [alt]="user.nombre" class="fp-avatar" />
+      <span class="fp-name" *ngIf="expanded">{{ user.nombre }}</span>
+    </a>
+  </div>
+
+</div>

@@ -1,0 +1,53 @@
+.fp-container {
+  position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 100;
+  display: flex; flex-direction: column; align-items: flex-end;
+  transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+
+.fp-toggle {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(20,20,20,0.95); border: 1px solid rgba(178,161,121,0.15);
+  border-right: none; border-radius: 14px 0 0 14px;
+  padding: 10px 14px; cursor: pointer; color: #B2A179;
+  font-size: 12px; font-weight: 700; transition: all 0.2s;
+  backdrop-filter: blur(12px);
+}
+.fp-toggle:hover { background: rgba(30,30,30,0.95); border-color: rgba(178,161,121,0.3); }
+.fp-container.expanded .fp-toggle { border-radius: 14px 0 0 0; }
+
+.fp-count {
+  background: #B2A179; color: #000; font-size: 11px; font-weight: 800;
+  width: 20px; height: 20px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center;
+}
+.fp-label { letter-spacing: 0.03em; }
+.fp-chevron { transition: transform 0.3s; color: rgba(178,161,121,0.6); }
+.fp-container.expanded .fp-chevron { transform: rotate(180deg); }
+
+.fp-list {
+  display: flex; flex-direction: column; gap: 2px;
+  background: rgba(15,15,15,0.95); border: 1px solid rgba(178,161,121,0.12);
+  border-top: none; border-right: none; border-radius: 0 0 0 14px;
+  padding: 8px 0; max-height: 60vh; overflow-y: auto;
+  backdrop-filter: blur(12px);
+  animation: listIn 0.2s ease;
+}
+@keyframes listIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+
+.fp-item {
+  display: flex; align-items: center; gap: 10px; padding: 6px 16px 6px 14px;
+  text-decoration: none; color: #fff; transition: background 0.15s; white-space: nowrap;
+}
+.fp-item:hover { background: rgba(178,161,121,0.08); }
+
+.fp-avatar {
+  width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
+  border: 1.5px solid rgba(178,161,121,0.2); flex-shrink: 0;
+}
+.fp-name {
+  font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85);
+}
+
+@media (max-width: 768px) {
+  .fp-container { right: 0; top: auto; bottom: 80px; transform: none; }
+}
