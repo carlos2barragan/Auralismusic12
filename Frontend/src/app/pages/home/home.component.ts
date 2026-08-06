@@ -8,8 +8,12 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { RandomSongListComponent } from '../../components/random-song-list/random-song-list.component';
 import { MostPlayedSongsComponent } from '../../components/most-played-songs/most-played-songs.component';
 import { RecentSongsComponent } from '../../components/recent-songs/recent-songs.component';
+import { PremiumModalComponent } from '../../components/premium-modal/premium-modal.component';
+import { AdModalComponent } from '../../components/ad-modal/ad-modal.component';
 import { SongService } from '../../services/song.service';
 import { SpotifyService } from '../../services/spotify.service';
+import { AdService } from '../../services/ad.service';
+import { PremiumService } from '../../services/premium.service';
 import { Cancion } from '../../models/cancion.model';
 import { CLOUDINARY, buildCloudinaryUrl } from '../../shared/constants';
 
@@ -24,6 +28,8 @@ import { CLOUDINARY, buildCloudinaryUrl } from '../../shared/constants';
     RandomSongListComponent,
     MostPlayedSongsComponent,
     RecentSongsComponent,
+    PremiumModalComponent,
+    AdModalComponent,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -50,7 +56,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   readonly defaultAvatar = CLOUDINARY.defaultAvatar;
   heroTransform = '';
 
-  constructor(private songService: SongService, private spotifyService: SpotifyService) {}
+  showPremiumModal = false;
+  showAd = false;
+  isPremiumUser = false;
+
+  constructor(
+    private songService: SongService,
+    private spotifyService: SpotifyService,
+    private adService: AdService,
+    private premiumService: PremiumService
+  ) {}
 
   ngOnInit() {
     this.songService.getMostPlayedSongs().pipe(takeUntil(this.destroy$)).subscribe(songs => {
@@ -65,6 +80,30 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.enrichSongs(songs);
     });
     this.loadRecentlyPlayed();
+    this.checkPremiumAndAds();
+  }
+
+  private checkPremiumAndAds(): void {
+    this.isPremiumUser = this.premiumService.isPremium();
+    if (!this.isPremiumUser) {
+      setTimeout(() => { this.showAd = true; }, 8000);
+    }
+  }
+
+  onAdClosed(): void {
+    this.showAd = false;
+    if (!this.isPremiumUser) {
+      setTimeout(() => { this.showAd = true; }, 60000);
+    }
+  }
+
+  onUpgradeClick(): void {
+    this.showPremiumModal = true;
+  }
+
+  onPremiumUpgraded(): void {
+    this.isPremiumUser = true;
+    this.showAd = false;
   }
 
   ngOnDestroy(): void {

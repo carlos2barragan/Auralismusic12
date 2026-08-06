@@ -302,4 +302,16 @@ const isFollowing = async (req, res) => {
   }
 };
 
-export default { Registro, login, obtenerUsuarios, obtenerUsuario, actualizarUsuario, eliminarUsuario, updateUserRole, obtenerStats, registrarPlay, actualizarConfig, cambiarPassword, verificarEmail, seguirUsuario, dejarDeSeguir, obtenerFollowers, obtenerFollowing, isFollowing };
+const upgradeToPremium = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: "ID no válido" });
+    const usuario = await Usuario.findByIdAndUpdate(id, { plan: "premium" }, { new: true });
+    if (!usuario) return res.status(404).json({ message: "Usuario no encontrado" });
+    res.status(200).json({ message: "¡Actualizado a Premium!", user: { _id: usuario._id, nombre: usuario.nombre, plan: usuario.plan } });
+  } catch (error) {
+    res.status(500).json({ message: "Error al actualizar plan" });
+  }
+};
+
+export default { Registro, login, obtenerUsuarios, obtenerUsuario, actualizarUsuario, eliminarUsuario, updateUserRole, obtenerStats, registrarPlay, actualizarConfig, cambiarPassword, verificarEmail, seguirUsuario, dejarDeSeguir, obtenerFollowers, obtenerFollowing, isFollowing, upgradeToPremium };

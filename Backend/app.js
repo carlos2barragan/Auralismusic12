@@ -14,6 +14,7 @@ import playlistrutas from "./src/rutas/playlistrutas.js";
 import uploadRoutes from "./src/rutas/uploads.js";
 import spotifyrutas from "./src/rutas/spotifyrutas.js";
 import solicitudesrutas from "./src/rutas/solicitudesrutas.js";
+import anunciosrutas from "./src/rutas/anunciosrutas.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -56,6 +57,7 @@ app.use("/Api", playlistrutas);
 app.use("/Api", uploadRoutes);
 app.use("/Api", spotifyrutas);
 app.use("/Api", solicitudesrutas);
+app.use("/Api", anunciosrutas);
 
 app.use((req, res, next) => {
   res.status(404).json({ error: "Ruta no encontrada" });

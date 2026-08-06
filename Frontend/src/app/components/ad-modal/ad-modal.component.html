@@ -1,0 +1,33 @@
+<div class="ad-backdrop" *ngIf="show" (click)="closeAd()">
+  <div class="ad-container" (click)="$event.stopPropagation()">
+
+    <div class="ad-badge">Anuncio</div>
+
+    <div class="ad-close" (click)="closeAd()">
+      <span>{{ countdown }}</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </div>
+
+    <div class="ad-image-wrap" *ngIf="imagen">
+      <img [src]="imagen" [alt]="titulo" class="ad-image" />
+    </div>
+
+    <div class="ad-content">
+      <h2 class="ad-title">{{ titulo }}</h2>
+      <p class="ad-desc">{{ descripcion }}</p>
+    </div>
+
+    <div class="ad-actions">
+      <button class="ad-btn primary" *ngIf="enlace" (click)="openLink()">
+        Ver más
+      </button>
+      <button class="ad-btn upgrade" (click)="onUpgrade()">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Hazte Premium sin anuncios
+      </button>
+    </div>
+
+  </div>
+</div>

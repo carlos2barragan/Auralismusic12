@@ -1,0 +1,53 @@
+.ad-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.ad-container {
+  background: #0d0d0d; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
+  max-width: 420px; width: 90%; position: relative; overflow: hidden;
+  animation: popIn 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes popIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+
+.ad-badge {
+  position: absolute; top: 12px; left: 16px; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4);
+  z-index: 2;
+}
+
+.ad-close {
+  position: absolute; top: 10px; right: 14px; display: flex; align-items: center;
+  gap: 6px; font-size: 12px; color: rgba(255,255,255,0.5); cursor: pointer; z-index: 2;
+  background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 14px;
+}
+.ad-close:hover { color: #fff; background: rgba(0,0,0,0.6); }
+
+.ad-image-wrap {
+  width: 100%; height: 200px; background: linear-gradient(135deg, #1a1a1a, #111);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.ad-image { width: 100%; height: 100%; object-fit: cover; }
+
+.ad-content { padding: 24px 24px 16px; }
+.ad-title { font-size: 20px; font-weight: 800; color: #fff; margin: 0 0 8px; }
+.ad-desc { font-size: 14px; color: rgba(200,200,220,0.7); margin: 0; line-height: 1.5; }
+
+.ad-actions {
+  display: flex; flex-direction: column; gap: 8px; padding: 0 24px 24px;
+}
+.ad-btn {
+  width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 700;
+  cursor: pointer; border: none; transition: all 0.2s;
+}
+.ad-btn.primary {
+  background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.12);
+}
+.ad-btn.primary:hover { background: rgba(255,255,255,0.14); }
+.ad-btn.upgrade {
+  background: linear-gradient(135deg, #B2A179, #d4bc90); color: #000;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.ad-btn.upgrade:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(178,161,121,0.3); }
