@@ -24,7 +24,7 @@ export async function getPopularTracks(limit = 20, tags = "") {
   }
 }
 
-export async function searchJamendo(query: string, limit = 10) {
+export async function searchJamendo(query, limit = 10) {
   if (!CLIENT_ID) return [];
   try {
     const params = new URLSearchParams({
@@ -44,7 +44,7 @@ export async function searchJamendo(query: string, limit = 10) {
   }
 }
 
-function formatJamendoTrack(track: any) {
+function formatJamendoTrack(track) {
   return {
     jamendoId: track.id,
     titulo: track.name,
