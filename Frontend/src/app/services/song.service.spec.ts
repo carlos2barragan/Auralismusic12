@@ -68,7 +68,7 @@ describe('SongService', () => {
     let emitted: Cancion | null = null;
     service.currentSong$.subscribe(s => (emitted = s));
     service.setCurrentSong(mockSong);
-    expect(emitted).toEqual(mockSong);
+    expect(emitted as unknown as Cancion).toEqual(mockSong);
   });
 
   it('setIsPlaying should emit on isPlaying$', () => {
@@ -101,7 +101,7 @@ describe('SongService', () => {
     service.prevSong();
     let current: Cancion | null = null;
     service.currentSong$.subscribe(s => (current = s));
-    expect(current).toEqual(mockSong);
+    expect(current as unknown as Cancion).toEqual(mockSong);
   });
 
   it('playRandomSong should not play if playlist is empty', () => {

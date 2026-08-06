@@ -63,7 +63,7 @@ describe('ArtistInfoComponent (page)', () => {
   it('should load artist data on init', () => {
     expect(artistServiceSpy.getArtist).toHaveBeenCalledWith('a1');
     expect(component.artist).toEqual(mockArtist);
-    expect(component.songs.length).toBe(2);
+    expect(component.dbSongs.length).toBe(2);
     expect(component.loading).toBeFalse();
   });
 
@@ -92,7 +92,7 @@ describe('ArtistInfoComponent (page)', () => {
   });
 
   it('should call setCurrentSong and setIsPlaying on playSong', () => {
-    const song = component.songs[0];
+    const song = component.dbSongs[0];
     component.playSong(song as any);
     expect(songServiceSpy.setCurrentSong).toHaveBeenCalledWith(song as any);
     expect(songServiceSpy.setIsPlaying).toHaveBeenCalledWith(true);
@@ -105,7 +105,7 @@ describe('ArtistInfoComponent (page)', () => {
   });
 
   it('should not play if songs list is empty', () => {
-    component.songs = [];
+    component.dbSongs = [];
     spyOn(component, 'playSong');
     component.playRandom();
     expect(component.playSong).not.toHaveBeenCalled();
