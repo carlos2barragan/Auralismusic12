@@ -7,7 +7,7 @@
   margin-top: 64px;
   padding-bottom: 110px;
   min-height: calc(100vh - 64px);
-  background: #0d0d14;
+  background: #000000;
   animation: pageIn 0.35s cubic-bezier(0.22,1,0.36,1) both;
 }
 

@@ -75,7 +75,7 @@
   margin-top: 64px;
   padding-bottom: 130px;
   min-height: calc(100vh - 64px);
-  background: #07070f;
+  background: #000000;
   animation: pageIn 0.35s cubic-bezier(0.22,1,0.36,1) both;
 }
 
@@ -305,7 +305,7 @@
   gap: 10px;
   background: linear-gradient(135deg, #B2A179, #d4bc90);
   border: none;
-  color: #07070f;
+  color: #000000;
   padding: 15px 32px;
   border-radius: 40px;
   font-size: 15px;
@@ -479,7 +479,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #07070f;
+  color: #000000;
   flex-shrink: 0;
   opacity: 0;
   transform: scale(0.8);
@@ -542,7 +542,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #080810;
+  color: #000000;
   transform: scale(0.8);
   transition: transform 0.2s;
   padding-left: 3px;

@@ -5,7 +5,7 @@
   margin-top: 64px;
   padding: 40px 48px 120px;
   min-height: calc(100vh - 64px);
-  background: #080810;
+  background: #000000;
   animation: pageIn 0.4s cubic-bezier(0.22,1,0.36,1) both;
 }
 
@@ -85,7 +85,7 @@
   display: flex;
   align-items: flex-start;
   gap: 18px;
-  background: linear-gradient(135deg, #111111, #0a0a0a);
+  background: linear-gradient(135deg, #111111, #000000);
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 16px;
   padding: 20px 22px;

@@ -14,7 +14,7 @@
   margin-top: 64px;
   padding-bottom: 120px;
   min-height: calc(100vh - 64px);
-  background: #080810;
+  background: #000000;
   animation: pageIn 0.4s cubic-bezier(0.22,1,0.36,1) both;
 }
 
@@ -22,7 +22,7 @@
 .profile-hero {
   position: relative;
   padding: 48px 48px 0;
-  background: linear-gradient(180deg, #0d0d0d 0%, #0a0a0a 60%, transparent 100%);
+  background: linear-gradient(180deg, #0d0d0d 0%, #000000 60%, transparent 100%);
   overflow: hidden;
 }
 .hero-bg {
@@ -181,7 +181,7 @@
   padding: 22px 24px;
   margin-bottom: 32px;
 }
-.action-card-artist { border-color: rgba(255, 255, 255,0.2); background: linear-gradient(135deg, #121212, #0a0a0a); }
+.action-card-artist { border-color: rgba(255, 255, 255,0.2); background: linear-gradient(135deg, #121212, #000000); }
 .action-card-pending { border-color: rgba(200,160,40,0.25); background: linear-gradient(135deg, #1a1508, #14120a); }
 .action-card-rejected { border-color: rgba(220,60,60,0.2); background: linear-gradient(135deg, #1a0808, #120808); }
 
@@ -241,7 +241,7 @@
   display: inline-block;
   padding: 11px 22px;
   background: linear-gradient(135deg, #B2A179, #d4bc90);
-  color: #080810;
+  color: #000000;
   font-size: 13px;
   font-weight: 700;
   border: none;
@@ -288,7 +288,7 @@
   margin-bottom: 28px;
 }
 .stat-card {
-  background: linear-gradient(135deg, #111111, #0a0a0a);
+  background: linear-gradient(135deg, #111111, #000000);
   border: 1px solid rgba(178,161,121,0.1);
   border-radius: 16px;
   padding: 22px 20px;
@@ -310,7 +310,7 @@
   margin-bottom: 16px;
 }
 .stats-box {
-  background: linear-gradient(135deg, #111111, #0a0a0a);
+  background: linear-gradient(135deg, #111111, #000000);
   border: 1px solid rgba(178,161,121,0.08);
   border-radius: 16px;
   padding: 22px;
@@ -375,7 +375,7 @@
   max-width: 720px;
 }
 .plan-card {
-  background: linear-gradient(145deg, #111111, #0a0a0a);
+  background: linear-gradient(145deg, #111111, #000000);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 20px;
   padding: 28px 24px;
@@ -418,7 +418,7 @@
   background: linear-gradient(135deg, #B2A179, #d4bc90);
   border: none;
   border-radius: 12px;
-  color: #080810;
+  color: #000000;
   font-size: 14px;
   font-weight: 800;
   cursor: pointer;
@@ -468,7 +468,7 @@
   background: linear-gradient(135deg, #B2A179, #d4bc90);
   border: none;
   border-radius: 12px;
-  color: #080810;
+  color: #000000;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;

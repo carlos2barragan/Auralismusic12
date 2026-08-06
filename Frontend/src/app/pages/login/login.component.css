@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse at 20% 50%, #0a0a0a 0%, #0a0a16 60%, #000 100%);
+  background: radial-gradient(ellipse at 20% 50%, #000000 0%, #000000 60%, #000 100%);
   overflow: hidden;
   perspective: 1200px;
 }
@@ -291,7 +291,7 @@
   background-size: 200% 100%;
   border: none;
   border-radius: 12px;
-  color: #0a0a16;
+  color: #000000;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;

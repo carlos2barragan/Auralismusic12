@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: 64px;
-  background: rgba(10,9,22,0.94);
+  background: rgb(0 0 0 / 94%);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(178,161,121,0.1);
@@ -198,7 +198,7 @@
   border-radius: 50%;
   background: #B2A179;
   border: none;
-  color: #080810;
+  color: #000000;
   display: flex;
   align-items: center;
   justify-content: center;

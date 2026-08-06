@@ -8,7 +8,7 @@
   margin-top: 64px;
   padding-bottom: 110px;
   min-height: calc(100vh - 64px);
-  background: #0d0d14;
+  background: #000000;
   animation: pageIn 0.35s cubic-bezier(0.22,1,0.36,1) both;
 }
 
@@ -17,7 +17,7 @@
   position: relative;
   padding: 52px 40px 36px;
   overflow: hidden;
-  background: linear-gradient(180deg, #0a0a0a 0%, #0d0d14 100%);
+  background: linear-gradient(180deg, #000000 0%, #000000 100%);
 }
 .hero-orb {
   position: absolute;
