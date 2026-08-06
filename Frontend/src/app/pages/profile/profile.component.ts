@@ -12,13 +12,15 @@ import { PlaylistComponent } from '../../components/playlist/playlist.component'
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SongService } from '../../services/song.service';
 import { AlertService } from '../../services/alert.service';
+import { PremiumService } from '../../services/premium.service';
+import { PremiumModalComponent } from '../../components/premium-modal/premium-modal.component';
 
 @Component({
   standalone: true,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  imports: [CommonModule, HeaderComponent, PlaylistComponent, SidebarComponent, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, HeaderComponent, PlaylistComponent, SidebarComponent, RouterModule, FormsModule, ReactiveFormsModule, PremiumModalComponent],
 })
 export class ProfileComponent implements OnInit {
   user: any = {};
@@ -43,12 +45,15 @@ export class ProfileComponent implements OnInit {
   config = { perfilPublico: true, mostrarHistorial: true, notificaciones: true };
   savingConfig = false;
 
+  showPremiumModal = false;
+
   constructor(
     private playlistService: PlaylistService,
     private userService: UserService,
     private solicitudService: SolicitudService,
     private songService: SongService,
     private alert: AlertService,
+    private premiumService: PremiumService,
     private fb: FormBuilder
   ) {}
 
@@ -78,6 +83,12 @@ export class ProfileComponent implements OnInit {
   setSection(s: typeof this.activeSection): void {
     this.activeSection = s;
     if (s === 'stats' && !this.stats) this.loadStats();
+  }
+
+  onPremiumUpgraded(): void {
+    this.user.plan = 'premium';
+    localStorage.setItem('user', JSON.stringify(this.user));
+    this.showPremiumModal = false;
   }
 
   esCantante(): boolean {

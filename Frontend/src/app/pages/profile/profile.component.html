@@ -246,7 +246,7 @@
           <div class="plan-tag premium-tag" *ngIf="user.plan === 'premium'">Plan actual</div>
           <div class="plan-badge-gem">⭐</div>
           <div class="plan-name">Premium</div>
-          <div class="plan-price"><span class="price-val">$9.99</span><span class="price-per">/mes</span></div>
+          <div class="plan-price"><span class="price-val">$5.990</span><span class="price-per">/mes</span></div>
           <ul class="plan-features">
             <li class="feat ok">Acceso a todas las canciones</li>
             <li class="feat ok">Crear playlists</li>
@@ -256,7 +256,7 @@
             <li class="feat ok">Audio de alta calidad</li>
             <li class="feat ok">Estadísticas avanzadas</li>
           </ul>
-          <button class="upgrade-btn" *ngIf="user.plan !== 'premium'">Mejorar a Premium</button>
+          <button class="upgrade-btn" *ngIf="user.plan !== 'premium'" (click)="showPremiumModal = true">Mejorar a Premium</button>
           <div class="current-label" *ngIf="user.plan === 'premium'">✓ Plan activo</div>
         </div>
       </div>
@@ -363,4 +363,4 @@
   </div>
 </main>
 
-
+<app-premium-modal [(show)]="showPremiumModal" (upgraded)="onPremiumUpgraded()"></app-premium-modal>
