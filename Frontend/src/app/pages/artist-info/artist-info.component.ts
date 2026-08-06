@@ -218,6 +218,7 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
   }
 
   private loadFollowInfo(userId: string): void {
+    if (!this.isLoggedIn()) return;
     this.followService.isFollowing(userId).pipe(takeUntil(this.destroy$)).subscribe({
       next: (res) => this.isFollowing = res.following,
       error: () => {}

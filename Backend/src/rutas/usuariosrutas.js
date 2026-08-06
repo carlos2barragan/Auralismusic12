@@ -25,7 +25,7 @@ router.post("/Usuario/:id/follow", tokenValido, usuariosController.seguirUsuario
 router.delete("/Usuario/:id/follow", tokenValido, usuariosController.dejarDeSeguir);
 router.get("/Usuario/:id/followers", usuariosController.obtenerFollowers);
 router.get("/Usuario/:id/following", usuariosController.obtenerFollowing);
-router.get("/Usuario/:id/is-following", usuariosController.isFollowing);
+router.get("/Usuario/:id/is-following", tokenValido, usuariosController.isFollowing);
 router.patch("/Usuario/:id/premium", tokenValido, usuariosController.upgradeToPremium);
 router.get("/Usuario/:id/seguidos", usuariosController.obtenerSeguidos);
 
