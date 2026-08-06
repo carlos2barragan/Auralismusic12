@@ -11,6 +11,7 @@ export interface GenreCard {
   slug: string;
   icon: string;
   gradient: string;
+  accent: string;
   count: number;
 }
 
@@ -77,6 +78,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             slug: key,
             icon: meta.icon,
             gradient: meta.gradient,
+            accent: meta.accent,
             count
           };
         });
