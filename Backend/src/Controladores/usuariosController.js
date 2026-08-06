@@ -317,14 +317,26 @@ const upgradeToPremium = async (req, res) => {
 const obtenerSeguidos = async (req, res) => {
   try {
     const { id } = req.params;
-    const follows = await Seguidor.find({ follower: id }).populate("following", "nombre avatar");
-    const seguidos = follows.map(f => ({
-      _id: f.following._id,
-      nombre: f.following.nombre,
-      avatar: f.following.avatar,
-    }));
+    const follows = await Seguidor.find({ follower: id });
+    const ids = follows.map(f => f.following);
+
+    const [usuarios, cantantes] = await Promise.all([
+      Usuario.find({ _id: { $in: ids } }).select("nombre avatar"),
+      Cantante.find({ _id: { $in: ids } }).select("cantante avatar"),
+    ]);
+
+    const userMap = new Map(usuarios.map(u => [u._id.toString(), { nombre: u.nombre, avatar: u.avatar }]));
+    const cantanteMap = new Map(cantantes.map(c => [c._id.toString(), { nombre: c.cantante, avatar: c.avatar }]));
+
+    const seguidos = ids.map(id => {
+      const key = id.toString();
+      const data = userMap.get(key) || cantanteMap.get(key) || { nombre: 'Desconocido', avatar: null };
+      return { _id: id, ...data };
+    });
+
     res.status(200).json(seguidos);
   } catch (error) {
+    console.error("Error obtenerSeguidos:", error);
     res.status(500).json({ message: "Error al obtener seguidos" });
   }
 };
