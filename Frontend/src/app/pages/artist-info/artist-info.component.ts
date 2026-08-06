@@ -150,6 +150,26 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
     return [...g].slice(0, 4);
   }
 
+  get collaboratingArtists(): any[] {
+    const artistName = this.artist?.cantante?.toLowerCase() || '';
+    const seen = new Set<string>();
+    return this.dbSongs
+      .filter((s: any) => {
+        const name = s.cantante?.cantante?.toLowerCase() || '';
+        return name && name !== artistName;
+      })
+      .map((s: any) => s.cantante)
+      .filter((c: any) => {
+        if (!c?._id || seen.has(c._id)) return false;
+        seen.add(c._id);
+        return true;
+      });
+  }
+
+  getAvatar(collab: any): string {
+    return collab?.avatar || this.defaultAvatar;
+  }
+
   get artistAvatar(): string {
     return this.artist?.avatar || this.defaultAvatar;
   }

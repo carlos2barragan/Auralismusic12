@@ -3,7 +3,6 @@
 
 <main class="main-content">
 
-  <!-- Loading state -->
   <div class="loading-state" *ngIf="loading">
     <div class="spinner"></div>
     <p>Cargando artista...</p>
@@ -15,19 +14,12 @@
     <div class="artist-hero">
       <div class="hero-bg" [style.background-image]="'url(' + artistAvatar + ')'"></div>
       <div class="hero-overlay"></div>
-      <div class="hero-mesh"></div>
-
-      <div class="h-orb h-orb-1"></div>
-      <div class="h-orb h-orb-2"></div>
 
       <div class="hero-content">
         <div class="avatar-scene">
-          <div class="avatar-ring ring-outer"></div>
-          <div class="avatar-ring ring-inner"></div>
           <div class="avatar-glow"></div>
           <img [src]="artistAvatar" [alt]="artist.cantante" class="artist-avatar" />
         </div>
-
         <div class="hero-text">
           <span class="hero-tag">Artista</span>
           <h1 class="artist-name">{{ artist.cantante }}</h1>
@@ -42,13 +34,13 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
                 <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
               </svg>
-              {{ formatPlays(totalPlays) }} reproducciones
+              {{ formatPlays(totalPlays) }} plays
             </span>
             <span class="meta-chip spotify-followers-chip" *ngIf="spotifyFollowers">
               <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
-                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0z"/>
               </svg>
-              {{ spotifyFollowers }} seguidores
+              {{ spotifyFollowers }}
             </span>
             <span class="genre-badge" *ngFor="let g of generos">{{ g }}</span>
           </div>
@@ -56,147 +48,140 @@
       </div>
     </div>
 
-    <!-- ── Play button row ── -->
+    <!-- ── Actions ── -->
     <div class="action-row">
       <button class="play-all-btn" (click)="playSong(allSongs[0])" *ngIf="allSongs.length > 0">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-          <path d="M5 3l14 9-14 9V3z"/>
-        </svg>
-        Reproducir todo
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M5 3l14 9-14 9V3z"/></svg>
+        Reproducir
       </button>
-      <button class="shuffle-all-btn" (click)="playRandom()" *ngIf="allSongs.length > 0">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+      <button class="shuffle-btn" (click)="playRandom()" *ngIf="allSongs.length > 0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
           <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6"/>
         </svg>
         Aleatorio
       </button>
-      <a *ngIf="spotifyArtist?.externalUrl" [href]="spotifyArtist?.externalUrl" target="_blank" class="spotify-artist-link">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-        </svg>
-        Ver en Spotify
+      <a *ngIf="spotifyArtist?.externalUrl" [href]="spotifyArtist?.externalUrl" target="_blank" class="spotify-link">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0z"/></svg>
+        Spotify
       </a>
     </div>
 
-    <!-- ── Songs table ── -->
-    <section class="songs-section">
-      <div class="songs-header">
-        <span class="sh-num">#</span>
-        <span class="sh-title">Título</span>
-        <span class="sh-album">Álbum</span>
-        <span class="sh-genre">Género</span>
-        <span class="sh-plays">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-          </svg>
-        </span>
-      </div>
+    <!-- ── Two-column layout ── -->
+    <div class="artist-body">
+      <!-- LEFT: Songs -->
+      <div class="body-main">
+        <section class="songs-section">
+          <h2 class="section-title">Canciones</h2>
 
-      <!-- DB songs -->
-      <div
-        *ngFor="let song of dbSongs; let i = index"
-        class="song-row"
-        [class.playing]="isCurrentSong(song)"
-        [style.--i]="i"
-        (click)="playSong(song)">
-
-        <div class="sr-num">
-          <span class="row-num" *ngIf="!isCurrentSong(song)">{{ i + 1 }}</span>
-          <div class="mini-bars" *ngIf="isCurrentSong(song)">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-
-        <div class="sr-title">
-          <div class="cover-wrap">
-            <img [src]="song.imagen || 'assets/default-cover.jpg'" [alt]="song.titulo" class="row-cover"/>
-            <div class="cover-play">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M5 3l14 9-14 9V3z"/></svg>
+          <!-- DB songs -->
+          <div class="song-list">
+            <div
+              *ngFor="let song of dbSongs; let i = index"
+              class="song-row"
+              [class.playing]="isCurrentSong(song)"
+              [style.--i]="i"
+              (click)="playSong(song)">
+              <div class="sr-num">
+                <span class="row-num" *ngIf="!isCurrentSong(song)">{{ i + 1 }}</span>
+                <div class="mini-bars" *ngIf="isCurrentSong(song)"><span></span><span></span><span></span></div>
+              </div>
+              <div class="sr-cover">
+                <img [src]="song.imagen || 'assets/default-cover.jpg'" [alt]="song.titulo" class="row-cover"/>
+                <div class="cover-play">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M5 3l14 9-14 9V3z"/></svg>
+                </div>
+              </div>
+              <div class="sr-info">
+                <span class="row-title" [class.gold]="isCurrentSong(song)">{{ song.titulo }}</span>
+                <span class="row-sub">{{ song.album || 'Single' }} · {{ formatPlays(song.plays || 0) }} plays</span>
+              </div>
+              <span class="sr-duration">{{ song.genero || '' }}</span>
             </div>
           </div>
-          <div class="row-info">
-            <span class="row-title" [class.gold]="isCurrentSong(song)">{{ song.titulo }}</span>
+
+          <!-- Spotify divider -->
+          <div class="spotify-divider" *ngIf="spotifySongs.length > 0 && !loadingSpotify">
+            <span>Top tracks de Spotify</span>
           </div>
-        </div>
 
-        <span class="sr-album">{{ song.album || '—' }}</span>
-        <span class="sr-genre">{{ song.genero || '—' }}</span>
-        <span class="sr-plays">{{ formatPlays(song.plays || 0) }}</span>
-      </div>
-
-      <!-- Spotify section divider -->
-      <div class="spotify-section-divider" *ngIf="spotifySongs.length > 0 && !loadingSpotify">
-        <div class="divider-line"></div>
-        <div class="divider-label">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
-            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-          </svg>
-          Top tracks de Spotify
-        </div>
-        <div class="divider-line"></div>
-      </div>
-
-      <!-- Spotify loading skeleton -->
-      <div class="spotify-loading-rows" *ngIf="loadingSpotify">
-        <div class="song-row skeleton-row" *ngFor="let i of [1,2,3,4,5]">
-          <div class="skeleton-num"></div>
-          <div class="skeleton-cover"></div>
-          <div class="skeleton-text"></div>
-        </div>
-      </div>
-
-      <!-- Spotify songs -->
-      <div
-        *ngFor="let song of spotifySongs; let i = index"
-        class="song-row spotify-song-row"
-        [class.playing]="isCurrentSong(song)"
-        [class.no-preview]="!song._hasPreview"
-        [style.--i]="i + dbSongs.length"
-        (click)="playSong(song)">
-
-        <div class="sr-num">
-          <span class="row-num" *ngIf="!isCurrentSong(song)">{{ dbSongs.length + i + 1 }}</span>
-          <div class="mini-bars" *ngIf="isCurrentSong(song)">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-
-        <div class="sr-title">
-          <div class="cover-wrap">
-            <img [src]="song.imagen || 'assets/default-cover.jpg'" [alt]="song.titulo" class="row-cover"/>
-            <div class="cover-play">
-              <!-- Play icon for songs with preview -->
-              <svg *ngIf="song._hasPreview" viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
-                <path d="M5 3l14 9-14 9V3z"/>
-              </svg>
-              <!-- External link icon for songs without preview -->
-              <svg *ngIf="!song._hasPreview" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
-                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
-              </svg>
+          <!-- Spotify loading -->
+          <div class="spotify-loading" *ngIf="loadingSpotify">
+            <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5]">
+              <div class="skel-num"></div><div class="skel-cover"></div><div class="skel-text"></div>
             </div>
           </div>
-          <div class="row-info">
-            <span class="row-title" [class.gold]="isCurrentSong(song)">{{ song.titulo }}</span>
-            <span class="preview-badge" *ngIf="song._hasPreview">Preview 30s</span>
-            <span class="no-preview-badge" *ngIf="!song._hasPreview">Abre en Spotify</span>
+
+          <!-- Spotify songs -->
+          <div class="song-list">
+            <div
+              *ngFor="let song of spotifySongs; let i = index"
+              class="song-row spotify-row"
+              [class.playing]="isCurrentSong(song)"
+              [class.no-preview]="!song._hasPreview"
+              [style.--i]="i + dbSongs.length"
+              (click)="playSong(song)">
+              <div class="sr-num">
+                <span class="row-num" *ngIf="!isCurrentSong(song)">{{ dbSongs.length + i + 1 }}</span>
+                <div class="mini-bars" *ngIf="isCurrentSong(song)"><span></span><span></span><span></span></div>
+              </div>
+              <div class="sr-cover">
+                <img [src]="song.imagen || 'assets/default-cover.jpg'" [alt]="song.titulo" class="row-cover"/>
+                <div class="cover-play">
+                  <svg *ngIf="song._hasPreview" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M5 3l14 9-14 9V3z"/></svg>
+                  <svg *ngIf="!song._hasPreview" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                </div>
+              </div>
+              <div class="sr-info">
+                <span class="row-title" [class.gold]="isCurrentSong(song)">{{ song.titulo }}</span>
+                <span class="row-sub">{{ song.album || 'Single' }}
+                  <span class="spotify-badge" *ngIf="song._hasPreview">Preview</span>
+                </span>
+              </div>
+              <span class="sr-duration spotify-pop">{{ song._popularity || '' }}</span>
+            </div>
+          </div>
+
+          <div class="empty-state" *ngIf="allSongs.length === 0 && !loadingSpotify">
+            <p>Este artista no tiene canciones aún.</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT: Sidebar -->
+      <aside class="body-sidebar">
+        <!-- Collaborating artists -->
+        <div class="sidebar-card" *ngIf="collaboratingArtists.length > 0">
+          <h3 class="card-title">Colaboraciones</h3>
+          <div class="collab-list">
+            <a
+              *ngFor="let collab of collaboratingArtists"
+              class="collab-item"
+              [routerLink]="['/artist', collab._id]">
+              <img [src]="getAvatar(collab)" [alt]="collab.cantante" class="collab-avatar" />
+              <span class="collab-name">{{ collab.cantante }}</span>
+            </a>
           </div>
         </div>
 
-        <span class="sr-album">{{ song.album || '—' }}</span>
-        <span class="sr-genre">{{ song.genero || '—' }}</span>
-        <span class="sr-plays spotify-popularity">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10" style="color:#1DB954">
-            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-          </svg>
-          {{ song._popularity }}
-        </span>
-      </div>
-
-      <div class="empty-state" *ngIf="allSongs.length === 0 && !loadingSpotify">
-        <div class="empty-icon">🎵</div>
-        <p>Este artista no tiene canciones aún.</p>
-      </div>
-    </section>
+        <!-- Spotify Artist Info -->
+        <div class="sidebar-card" *ngIf="spotifyArtist">
+          <h3 class="card-title">En Spotify</h3>
+          <div class="spotify-stats">
+            <div class="stat-item" *ngIf="spotifyFollowers">
+              <span class="stat-val">{{ spotifyFollowers }}</span>
+              <span class="stat-label">Seguidores</span>
+            </div>
+            <div class="stat-item" *ngIf="spotifyArtist.popularidad">
+              <span class="stat-val">{{ spotifyArtist.popularidad }}%</span>
+              <span class="stat-label">Popularidad</span>
+            </div>
+          </div>
+          <div class="spotify-genres" *ngIf="spotifyArtist.generos?.length">
+            <span class="sgenre-tag" *ngFor="let g of spotifyArtist.generos.slice(0, 6)">{{ g }}</span>
+          </div>
+        </div>
+      </aside>
+    </div>
 
   </ng-container>
 
