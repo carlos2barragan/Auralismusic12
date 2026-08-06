@@ -4,7 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { SongService } from '../../services/song.service';
 import { UIStateService } from '../../services/ui-state.service';
 import { catchError, of, Subscription } from 'rxjs';
-import { CLOUDINARY } from '../../shared/constants';
+import { CLOUDINARY, GENRE_META, DEFAULT_GENRE_META } from '../../shared/constants';
 
 export interface GenreCard {
   name: string;
@@ -34,27 +34,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   private subs = new Subscription();
-
-  private readonly genreMeta: Record<string, { icon: string; gradient: string }> = {
-    'reggaeton':    { icon: '🎤', gradient: 'linear-gradient(135deg,#7C3AED,#4C1D95)' },
-    'pop':          { icon: '🌟', gradient: 'linear-gradient(135deg,#DB2777,#831843)' },
-    'r&b':          { icon: '🎷', gradient: 'linear-gradient(135deg,#DC2626,#7F1D1D)' },
-    'hip-hop':      { icon: '🎧', gradient: 'linear-gradient(135deg,#D97706,#78350F)' },
-    'alternative':  { icon: '🎸', gradient: 'linear-gradient(135deg,#059669,#064E3B)' },
-    'indie':        { icon: '🎵', gradient: 'linear-gradient(135deg,#0284C7,#0C4A6E)' },
-    'indie pop':    { icon: '🎵', gradient: 'linear-gradient(135deg,#0EA5E9,#0C4A6E)' },
-    'latin urban':  { icon: '🎺', gradient: 'linear-gradient(135deg,#B2A179,#78683A)' },
-    'latin':        { icon: '🪘', gradient: 'linear-gradient(135deg,#F59E0B,#92400E)' },
-    'rock':         { icon: '🎸', gradient: 'linear-gradient(135deg,#6B7280,#1F2937)' },
-    'electronic':   { icon: '⚡', gradient: 'linear-gradient(135deg,#6366F1,#3730A3)' },
-    'dance':        { icon: '💃', gradient: 'linear-gradient(135deg,#06B6D4,#0E7490)' },
-    'trap':         { icon: '🔊', gradient: 'linear-gradient(135deg,#8B5CF6,#4C1D95)' },
-    'soul':         { icon: '❤️', gradient: 'linear-gradient(135deg,#EF4444,#7F1D1D)' },
-    'jazz':         { icon: '🎷', gradient: 'linear-gradient(135deg,#F59E0B,#451A03)' },
-    'classical':    { icon: '🎻', gradient: 'linear-gradient(135deg,#9CA3AF,#111827)' },
-  };
-
-  private readonly defaultMeta = { icon: '🎶', gradient: 'linear-gradient(135deg,#374151,#111827)' };
 
   constructor(
     private songService: SongService,
@@ -92,7 +71,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.genres = [...counts.entries()]
         .sort((a, b) => b[1] - a[1])
         .map(([key, count]) => {
-          const meta = this.genreMeta[key] || this.defaultMeta;
+          const meta = GENRE_META[key] || DEFAULT_GENRE_META;
           return {
             name: this.titleCase(key),
             slug: key,
