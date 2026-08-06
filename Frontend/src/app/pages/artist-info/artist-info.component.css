@@ -209,6 +209,9 @@
   margin: 0 12px;
 }
 
+.jamendo-divider { color: #ff6b35; }
+.jamendo-divider::before, .jamendo-divider::after { background: rgba(255,107,53,0.15); }
+
 /* Skeleton */
 .spotify-loading { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; }
 .skeleton-row { display: flex; align-items: center; gap: 12px; padding: 8px 12px; }

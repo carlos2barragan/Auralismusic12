@@ -157,6 +157,37 @@
             </div>
           </div>
 
+          <!-- Jamendo divider -->
+          <div class="spotify-divider jamendo-divider" *ngIf="jamendoSongs.length > 0">
+            <span>🎵 Jamendo</span>
+          </div>
+
+          <!-- Jamendo songs -->
+          <div class="song-list">
+            <div
+              *ngFor="let song of jamendoSongs; let i = index"
+              class="song-row"
+              [class.playing]="isCurrentSong(song)"
+              [style.--i]="i + dbSongs.length + spotifySongs.length"
+              (click)="playSong(song)">
+              <div class="sr-num">
+                <span class="row-num" *ngIf="!isCurrentSong(song)">{{ dbSongs.length + spotifySongs.length + i + 1 }}</span>
+                <div class="mini-bars" *ngIf="isCurrentSong(song)"><span></span><span></span><span></span></div>
+              </div>
+              <div class="sr-cover">
+                <img [src]="song.imagen || 'assets/default-cover.jpg'" [alt]="song.titulo" class="row-cover"/>
+                <div class="cover-play">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M5 3l14 9-14 9V3z"/></svg>
+                </div>
+              </div>
+              <div class="sr-info">
+                <span class="row-title" [class.gold]="isCurrentSong(song)">{{ song.titulo }}</span>
+                <span class="row-sub">{{ song.album || 'Single' }}</span>
+              </div>
+              <span class="sr-duration">{{ song.genero || '' }}</span>
+            </div>
+          </div>
+
           <div class="empty-state" *ngIf="allSongs.length === 0 && !loadingSpotify">
             <p>Este artista no tiene canciones aún.</p>
           </div>

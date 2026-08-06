@@ -1,4 +1,4 @@
-import { searchJamendo, getPopularTracks } from "../services/jamendoService.js";
+import { searchJamendo, getPopularTracks, getArtistTracks, searchArtist } from "../services/jamendoService.js";
 
 export const search = async (req, res) => {
   try {
@@ -21,4 +21,26 @@ export const popular = async (req, res) => {
   }
 };
 
-export default { search, popular };
+export const artistTracks = async (req, res) => {
+  try {
+    const { name } = req.query;
+    if (!name) return res.json([]);
+    const results = await getArtistTracks(name);
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ message: "Error obteniendo tracks del artista" });
+  }
+};
+
+export const artistInfo = async (req, res) => {
+  try {
+    const { name } = req.query;
+    if (!name) return res.json(null);
+    const result = await searchArtist(name);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Error obteniendo info del artista" });
+  }
+};
+
+export default { search, popular, artistTracks, artistInfo };

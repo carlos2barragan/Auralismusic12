@@ -9,6 +9,7 @@ import { ArtistService } from '../../services/artist.service';
 import { SongService } from '../../services/song.service';
 import { SpotifyService, SpotifyTrack, SpotifyArtist } from '../../services/spotify.service';
 import { FollowService } from '../../services/follow.service';
+import { JamendoService, type JamendoTrack } from '../../services/jamendo.service';
 import { Cancion } from '../../models/cancion.model';
 import { CLOUDINARY } from '../../shared/constants';
 
@@ -26,6 +27,7 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
 
   dbSongs: Cancion[] = [];
   spotifySongs: any[] = [];
+  jamendoSongs: any[] = [];
 
   currentSong: Cancion | null = null;
   isPlaying = false;
@@ -42,6 +44,7 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
     private artistService: ArtistService,
     private songService: SongService,
     private spotifyService: SpotifyService,
+    private jamendoService: JamendoService,
     private followService: FollowService
   ) {}
 
@@ -109,6 +112,7 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
         if (!result || !result.artist) {
           this.spotifyArtist = null;
           this.spotifySongs = [];
+          this.loadJamendoTracks(artistName);
           return;
         }
         this.spotifyArtist = result.artist;
@@ -123,7 +127,10 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
           .filter(t => !dbTitles.has(t.titulo.toLowerCase().trim()))
           .map(t => this.trackToSong(t, result.artist));
       },
-      error: () => { this.loadingSpotify = false; }
+      error: () => {
+        this.loadingSpotify = false;
+        this.loadJamendoTracks(artistName);
+      }
     });
   }
 
@@ -144,8 +151,38 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
     };
   }
 
+  private loadJamendoTracks(artistName: string): void {
+    this.jamendoService.getArtistTracks(artistName).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (tracks) => {
+        this.jamendoSongs = tracks.map((t: JamendoTrack) => ({
+          _id: `jamendo_${t.jamendoId}`,
+          titulo: t.titulo,
+          cantante: { _id: '', cantante: t.artista, avatar: '' },
+          album: t.album,
+          genero: t.genero || 'General',
+          imagen: t.imagen,
+          fileUrl: t.fileUrl,
+          plays: t.plays,
+          _fromJamendo: true,
+          _hasPreview: true,
+        }));
+        if (tracks.length > 0 && this.artist && !this.artist.avatar) {
+          this.jamendoService.getArtistInfo(artistName).pipe(takeUntil(this.destroy$)).subscribe({
+            next: (info) => {
+              if (info?.imagen) {
+                this.artist = { ...this.artist, avatar: info.imagen };
+              }
+            },
+            error: () => {}
+          });
+        }
+      },
+      error: () => {}
+    });
+  }
+
   get allSongs(): any[] {
-    return [...this.dbSongs, ...this.spotifySongs];
+    return [...this.dbSongs, ...this.jamendoSongs, ...this.spotifySongs];
   }
 
   get totalPlays(): number {
