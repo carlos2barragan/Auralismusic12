@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -9,29 +9,24 @@ export class SolicitudService {
 
   constructor(private http: HttpClient) {}
 
-  private headers(): HttpHeaders {
-    const token = localStorage.getItem('user_token') || '';
-    return new HttpHeaders({ Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' });
-  }
-
   enviar(userId: string, mensaje = ''): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${userId}`, { mensaje }, { headers: this.headers() });
+    return this.http.post(`${this.apiUrl}/${userId}`, { mensaje });
   }
 
   miSolicitud(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/usuario/${userId}`, { headers: this.headers() });
+    return this.http.get(`${this.apiUrl}/usuario/${userId}`);
   }
 
   listar(estado?: string): Observable<any[]> {
     const params = estado ? `?estado=${estado}` : '';
-    return this.http.get<any[]>(`${this.apiUrl}${params}`, { headers: this.headers() });
+    return this.http.get<any[]>(`${this.apiUrl}${params}`);
   }
 
   aceptar(solicitudId: string): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${solicitudId}/aceptar`, {}, { headers: this.headers() });
+    return this.http.patch(`${this.apiUrl}/${solicitudId}/aceptar`, {});
   }
 
   rechazar(solicitudId: string): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${solicitudId}/rechazar`, {}, { headers: this.headers() });
+    return this.http.patch(`${this.apiUrl}/${solicitudId}/rechazar`, {});
   }
 }

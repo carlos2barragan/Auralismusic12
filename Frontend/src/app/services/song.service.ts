@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { Cancion } from '../models/cancion.model';
 import { environment } from '../../environments/environment';
@@ -26,43 +26,43 @@ export class SongService {
 
   getCanciones(): Observable<Cancion[]> {
     return this.http
-      .get<Cancion[]>(this.apiUrl, { headers: this.getHeaders() })
+      .get<Cancion[]>(this.apiUrl)
       .pipe(catchError(this.handleError));
   }
 
   getCancionById(id: string): Observable<Cancion> {
     return this.http
-      .get<Cancion>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() })
+      .get<Cancion>(`${this.apiUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
 
   getMostPlayedSongs(): Observable<Cancion[]> {
     return this.http
-      .get<Cancion[]>(`${this.apiUrl}/mas-escuchadas`, { headers: this.getHeaders() })
+      .get<Cancion[]>(`${this.apiUrl}/mas-escuchadas`)
       .pipe(catchError(this.handleError));
   }
 
   getRecentSongs(): Observable<Cancion[]> {
     return this.http
-      .get<Cancion[]>(`${this.apiUrl}/recientes`, { headers: this.getHeaders() })
+      .get<Cancion[]>(`${this.apiUrl}/recientes`)
       .pipe(catchError(this.handleError));
   }
 
   subirCancion(formData: FormData): Observable<Cancion> {
     return this.http
-      .post<Cancion>(this.apiUrl, formData, { headers: this.getHeaders(true) })
+      .post<Cancion>(this.apiUrl, formData)
       .pipe(catchError(this.handleError));
   }
 
   updateSong(id: string, formData: FormData): Observable<Cancion> {
     return this.http
-      .put<Cancion>(`${this.apiUrl}/${id}`, formData, { headers: this.getHeaders(true) })
+      .put<Cancion>(`${this.apiUrl}/${id}`, formData)
       .pipe(catchError(this.handleError));
   }
 
   deleteSong(id: string): Observable<any> {
     return this.http
-      .delete<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() })
+      .delete<any>(`${this.apiUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -104,15 +104,6 @@ export class SongService {
     const randomIndex = Math.floor(Math.random() * this.playlist.length);
     this.setCurrentSong(this.playlist[randomIndex]);
     this.setIsPlaying(true);
-  }
-
-  private getHeaders(isFormData: boolean = false): HttpHeaders {
-    const token = localStorage.getItem('user_token') || '';
-    let headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    if (!isFormData) {
-      headers = headers.set('Content-Type', 'application/json');
-    }
-    return headers;
   }
 
   private handleError(error: any): Observable<never> {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -11,16 +11,11 @@ export class ProfileService {
 
   constructor(private http: HttpClient) {}
 
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('user_token') || '';
-    return new HttpHeaders({ Authorization: `Bearer ${token}` });
-  }
-
   getUserProfile(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
   editProfilePhoto(userId: string, formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${userId}/avatar`, formData, { headers: this.getHeaders() });
+    return this.http.put<any>(`${this.apiUrl}/${userId}/avatar`, formData);
   }
 }
