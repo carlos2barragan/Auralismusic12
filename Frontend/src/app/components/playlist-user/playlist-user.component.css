@@ -5,7 +5,7 @@
   position: relative;
   padding: 48px 40px 36px;
   overflow: hidden;
-  background: linear-gradient(180deg, #1a0830 0%, #0d0d14 100%);
+  background: linear-gradient(180deg, #121212 0%, #0d0d14 100%);
   border-bottom: 1px solid rgba(178,161,121,0.08);
 }
 .pu-hero-orb {
@@ -21,7 +21,7 @@
 }
 .pu-orb-2 {
   width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(120,80,200,0.1) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(255, 255, 255,0.1) 0%, transparent 65%);
   bottom: -100px; left: 100px;
 }
 .pu-hero-body {
@@ -35,7 +35,7 @@
 .pu-cover {
   width: 130px; height: 130px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #2a1845, #1a1030);
+  background: linear-gradient(135deg, #1a1a1a, #121212);
   display: flex;
   align-items: center;
   justify-content: center;

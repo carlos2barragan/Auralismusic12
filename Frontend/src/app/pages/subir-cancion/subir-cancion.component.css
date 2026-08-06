@@ -14,7 +14,7 @@
 .upload-hero {
   position: relative;
   padding: 40px 48px 32px;
-  background: linear-gradient(180deg, #14082e 0%, #0d0b20 60%, transparent 100%);
+  background: linear-gradient(180deg, #0d0d0d 0%, #0a0a0a 60%, transparent 100%);
   overflow: hidden;
 }
 .hero-bg {
@@ -22,7 +22,7 @@
   inset: 0;
   background:
     radial-gradient(ellipse 60% 70% at 15% 30%, rgba(178,161,121,0.07) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 60% at 85% 70%, rgba(100,60,220,0.06) 0%, transparent 60%);
+    radial-gradient(ellipse 50% 60% at 85% 70%, rgba(255, 255, 255,0.06) 0%, transparent 60%);
 }
 .hero-orb {
   position: absolute;
@@ -32,7 +32,7 @@
   animation: orbPulse ease-in-out infinite;
 }
 .hero-orb-1 { width:320px; height:320px; background:radial-gradient(circle,rgba(178,161,121,0.1) 0%,transparent 65%); top:-100px; right:4%; animation-duration:9s; }
-.hero-orb-2 { width:220px; height:220px; background:radial-gradient(circle,rgba(100,60,220,0.1) 0%,transparent 65%); bottom:-60px; left:2%; animation-duration:13s; }
+.hero-orb-2 { width:220px; height:220px; background:radial-gradient(circle,rgba(255, 255, 255,0.1) 0%,transparent 65%); bottom:-60px; left:2%; animation-duration:13s; }
 
 .hero-body {
   position: relative;
@@ -69,7 +69,7 @@
 }
 
 .form-col {
-  background: linear-gradient(145deg, #131128, #0f0e1e);
+  background: linear-gradient(145deg, #111111, #0a0a0a);
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 20px;
   padding: 28px 28px 24px;
@@ -124,7 +124,7 @@
   padding-right: 36px;
   cursor: pointer;
 }
-.form-select option { background: #131128; color: #fff; }
+.form-select option { background: #111111; color: #fff; }
 
 /* ── Drop zones ── */
 .drop-zone {

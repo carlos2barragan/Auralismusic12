@@ -148,7 +148,7 @@
   backdrop-filter: blur(8px);
 }
 .modal {
-  background: linear-gradient(145deg, #161428, #100e20);
+  background: linear-gradient(145deg, #121212, #0c0c0c);
   border: 1px solid rgba(178,161,121,0.15);
   border-radius: 20px;
   padding: 28px;

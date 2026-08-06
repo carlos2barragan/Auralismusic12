@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse at 20% 50%, #12082a 0%, #0a0a16 60%, #000 100%);
+  background: radial-gradient(ellipse at 20% 50%, #0a0a0a 0%, #0a0a16 60%, #000 100%);
   overflow: hidden;
   perspective: 1200px;
 }
@@ -26,14 +26,14 @@
 }
 .orb-2 {
   width: 380px; height: 380px;
-  background: radial-gradient(circle, rgba(120,80,200,0.22) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255,0.22) 0%, transparent 70%);
   bottom: -80px; right: -60px;
   animation-duration: 22s;
   animation-direction: reverse;
 }
 .orb-3 {
   width: 280px; height: 280px;
-  background: radial-gradient(circle, rgba(60,180,255,0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255,0.15) 0%, transparent 70%);
   top: 40%; left: 60%;
   animation-duration: 14s;
 }
@@ -123,15 +123,15 @@
   width: 540px; height: 540px;
   margin: -270px 0 0 -270px;
   animation: spin 32s linear infinite reverse;
-  border-color: rgba(120,80,200,0.1);
-  border-right-color: rgba(120,80,200,0.4);
+  border-color: rgba(255, 255, 255,0.1);
+  border-right-color: rgba(255, 255, 255,0.4);
 }
 .ring-3 {
   width: 420px; height: 420px;
   margin: -210px 0 0 -210px;
   animation: spin 14s linear infinite;
-  border-color: rgba(60,180,255,0.08);
-  border-bottom-color: rgba(60,180,255,0.3);
+  border-color: rgba(255, 255, 255,0.08);
+  border-bottom-color: rgba(255, 255, 255,0.3);
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
@@ -141,7 +141,7 @@
 .card-inner {
   position: relative;
   z-index: 2;
-  background: rgba(18, 12, 36, 0.72);
+  background: rgba(12, 12, 12, 0.72);
   border: 1px solid rgba(178,161,121,0.22);
   border-radius: 24px;
   padding: 44px 40px 36px;

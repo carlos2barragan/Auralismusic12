@@ -22,7 +22,7 @@
 .profile-hero {
   position: relative;
   padding: 48px 48px 0;
-  background: linear-gradient(180deg, #14082e 0%, #0d0b20 60%, transparent 100%);
+  background: linear-gradient(180deg, #0d0d0d 0%, #0a0a0a 60%, transparent 100%);
   overflow: hidden;
 }
 .hero-bg {
@@ -30,7 +30,7 @@
   inset: 0;
   background:
     radial-gradient(ellipse 60% 70% at 10% 20%, rgba(178,161,121,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 60% at 85% 80%, rgba(100,60,220,0.07) 0%, transparent 60%);
+    radial-gradient(ellipse 50% 60% at 85% 80%, rgba(255, 255, 255,0.07) 0%, transparent 60%);
 }
 .hero-orb {
   position: absolute;
@@ -47,7 +47,7 @@
 }
 .hero-orb-2 {
   width: 250px; height: 250px;
-  background: radial-gradient(circle, rgba(100,60,220,0.1) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(255, 255, 255,0.1) 0%, transparent 65%);
   bottom: -80px; left: 3%;
   animation-duration: 12s;
 }
@@ -114,8 +114,8 @@
   color: #B2A179;
 }
 .badge-artist {
-  background: rgba(100,60,220,0.15);
-  border-color: rgba(120,80,220,0.4);
+  background: rgba(255, 255, 255,0.15);
+  border-color: rgba(255, 255, 255,0.4);
   color: #c09cf0;
 }
 .plan-badge {
@@ -175,13 +175,13 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  background: linear-gradient(135deg, #1a1428, #12101e);
+  background: linear-gradient(135deg, #151515, #0f0f0f);
   border: 1px solid rgba(178,161,121,0.15);
   border-radius: 16px;
   padding: 22px 24px;
   margin-bottom: 32px;
 }
-.action-card-artist { border-color: rgba(100,60,220,0.2); background: linear-gradient(135deg, #1a1028, #0f0f1e); }
+.action-card-artist { border-color: rgba(255, 255, 255,0.2); background: linear-gradient(135deg, #121212, #0a0a0a); }
 .action-card-pending { border-color: rgba(200,160,40,0.25); background: linear-gradient(135deg, #1a1508, #14120a); }
 .action-card-rejected { border-color: rgba(220,60,60,0.2); background: linear-gradient(135deg, #1a0808, #120808); }
 
@@ -288,7 +288,7 @@
   margin-bottom: 28px;
 }
 .stat-card {
-  background: linear-gradient(135deg, #141228, #0f0e1e);
+  background: linear-gradient(135deg, #111111, #0a0a0a);
   border: 1px solid rgba(178,161,121,0.1);
   border-radius: 16px;
   padding: 22px 20px;
@@ -310,7 +310,7 @@
   margin-bottom: 16px;
 }
 .stats-box {
-  background: linear-gradient(135deg, #141228, #0f0e1e);
+  background: linear-gradient(135deg, #111111, #0a0a0a);
   border: 1px solid rgba(178,161,121,0.08);
   border-radius: 16px;
   padding: 22px;
@@ -375,7 +375,7 @@
   max-width: 720px;
 }
 .plan-card {
-  background: linear-gradient(145deg, #141228, #0f0e1e);
+  background: linear-gradient(145deg, #111111, #0a0a0a);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 20px;
   padding: 28px 24px;
@@ -386,7 +386,7 @@
 .plan-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.5); }
 .plan-card.current-plan { border-color: rgba(178,161,121,0.3); }
 .plan-premium {
-  background: linear-gradient(145deg, #1c1230, #130f28);
+  background: linear-gradient(145deg, #161616, #0f0f0f);
   border-color: rgba(178,161,121,0.2);
 }
 .plan-tag {

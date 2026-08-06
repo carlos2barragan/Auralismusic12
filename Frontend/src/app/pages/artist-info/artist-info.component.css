@@ -75,7 +75,7 @@
   inset: 0;
   background:
     radial-gradient(ellipse 70% 80% at 20% 30%, rgba(178,161,121,0.1) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 60% at 80% 70%, rgba(100,60,220,0.08) 0%, transparent 60%);
+    radial-gradient(ellipse 50% 60% at 80% 70%, rgba(255, 255, 255,0.08) 0%, transparent 60%);
 }
 .h-orb {
   position: absolute;
@@ -92,7 +92,7 @@
 }
 .h-orb-2 {
   width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(100,60,220,0.1) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(255, 255, 255,0.1) 0%, transparent 65%);
   bottom: 0; left: 5%;
   animation-duration: 11s;
 }

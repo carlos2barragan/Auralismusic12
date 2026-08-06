@@ -85,7 +85,7 @@
   display: flex;
   align-items: flex-start;
   gap: 18px;
-  background: linear-gradient(135deg, #141228, #0f0e1e);
+  background: linear-gradient(135deg, #111111, #0a0a0a);
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 16px;
   padding: 20px 22px;
@@ -100,7 +100,7 @@
 .sc-avatar {
   width: 48px; height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(178,161,121,0.2), rgba(100,60,220,0.15));
+  background: linear-gradient(135deg, rgba(178,161,121,0.2), rgba(255, 255, 255,0.15));
   border: 1.5px solid rgba(178,161,121,0.2);
   display: flex;
   align-items: center;

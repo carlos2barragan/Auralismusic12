@@ -101,14 +101,14 @@
 }
 .amb-2 {
   width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(100,60,220,0.06) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(255, 255, 255,0.06) 0%, transparent 65%);
   bottom: 0; right: -100px;
   animation-duration: 28s;
   animation-direction: reverse;
 }
 .amb-3 {
   width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(40,140,255,0.03) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(255, 255, 255,0.03) 0%, transparent 65%);
   top: 50%; left: 50%;
   animation-duration: 18s;
 }
@@ -148,14 +148,14 @@
 }
 .hbg-2 {
   width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(120,50,240,0.1) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
   bottom: -100px; right: -80px;
   animation-duration: 26s;
   animation-direction: reverse;
 }
 .hbg-3 {
   width: 380px; height: 380px;
-  background: radial-gradient(circle, rgba(30,130,255,0.07) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
   top: 60%; left: 55%;
   animation-duration: 16s;
 }
@@ -185,9 +185,9 @@
   will-change: transform, opacity;
 }
 .fn-1 { left: 8%;  bottom: 10%; font-size: 28px; animation-duration: 8s;  animation-delay: 0s;    color: rgba(178,161,121,0.5); }
-.fn-2 { left: 22%; bottom: 5%;  font-size: 18px; animation-duration: 11s; animation-delay: -2s;   color: rgba(120,80,220,0.45); }
+.fn-2 { left: 22%; bottom: 5%;  font-size: 18px; animation-duration: 11s; animation-delay: -2s;   color: rgba(255, 255, 255, 0.12); }
 .fn-3 { left: 60%; bottom: 15%; font-size: 32px; animation-duration: 9s;  animation-delay: -5s;   color: rgba(178,161,121,0.4); }
-.fn-4 { left: 78%; bottom: 8%;  font-size: 20px; animation-duration: 13s; animation-delay: -3s;   color: rgba(60,160,255,0.4); }
+.fn-4 { left: 78%; bottom: 8%;  font-size: 20px; animation-duration: 13s; animation-delay: -3s;   color: rgba(255, 255, 255, 0.1); }
 .fn-5 { left: 88%; bottom: 25%; font-size: 26px; animation-duration: 10s; animation-delay: -7s;   color: rgba(178,161,121,0.35); }
 .fn-6 { left: 45%; bottom: 0%;  font-size: 16px; animation-duration: 12s; animation-delay: -1.5s; color: rgba(200,100,200,0.35); }
 .fn-7 { left: 35%; bottom: 20%; font-size: 22px; animation-duration: 7s;  animation-delay: -4s;   color: rgba(178,161,121,0.3); }
