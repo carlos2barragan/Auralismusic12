@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { SolicitudService } from '../../services/solicitud.service';
 import { HeaderComponent } from '../../components/header/header.component';
@@ -104,13 +105,13 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  cargarPlaylists(playlistIds: any[]): void {
+  async cargarPlaylists(playlistIds: any[]): Promise<void> {
     if (!playlistIds?.length) { this.playlist = []; return; }
     const validIds = playlistIds.map(p => typeof p === 'string' ? p : p?._id).filter(Boolean);
     if (!validIds.length) { this.playlist = []; return; }
-    Promise.all(validIds.map(id => this.playlistService.getPlaylist(id).toPromise()))
-      .then(pls => { this.playlist = pls; })
-      .catch(() => {});
+    try {
+      this.playlist = await Promise.all(validIds.map(id => firstValueFrom(this.playlistService.getPlaylist(id))));
+    } catch { this.playlist = []; }
   }
 
   private loadUserFromLocalStorage(): void {
