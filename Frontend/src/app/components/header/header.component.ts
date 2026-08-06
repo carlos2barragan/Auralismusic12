@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subs.add(this.uiState.sidebarOpen$.subscribe(v => this.sidebarOpen = v));
-    this.songService.getCanciones().subscribe({ next: d => this.songs = d, error: () => {} });
+    this.songService.getCanciones().subscribe({ next: d => this.songs = d, error: () => console.error('Error al cargar canciones') });
 
     this.subs.add(
       this.searchSubject.pipe(

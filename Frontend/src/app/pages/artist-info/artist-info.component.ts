@@ -89,7 +89,7 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
           };
         });
       },
-      error: () => {}
+      error: () => { this.loading = false; console.error('Error al obtener datos de Spotify') }
     });
   }
 

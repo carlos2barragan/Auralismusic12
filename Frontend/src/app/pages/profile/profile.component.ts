@@ -101,7 +101,7 @@ export class ProfileComponent implements OnInit {
           this.alert.artistWelcome(this.user.nombre || 'Artista');
         }
       },
-      error: () => {}
+      error: () => { this.alert.error('Error', 'No se pudo cargar el perfil.'); }
     });
   }
 

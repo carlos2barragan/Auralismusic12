@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { PlaylistService } from '../../services/playlist.service';
+import { AlertService } from '../../services/alert.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -15,7 +16,7 @@ export class PlaylistFormComponent {
 
   @Output() playlistCreated = new EventEmitter<any>();
 
-  constructor(private playlistService: PlaylistService) {}
+  constructor(private playlistService: PlaylistService, private alert: AlertService) {}
 
   createPlaylist() {
     if (!this.newPlaylistName.trim()) return;
@@ -25,7 +26,7 @@ export class PlaylistFormComponent {
         this.playlistCreated.emit(response);
         this.newPlaylistName = '';
       },
-      error: () => {}
+      error: () => { this.alert.error('Error', 'No se pudo crear la playlist.'); }
     });
   }
 }

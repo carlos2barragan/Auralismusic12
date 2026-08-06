@@ -1,6 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { SongService } from '../../services/song.service';
 import { PlaylistService } from '../../services/playlist.service';
+import { AlertService } from '../../services/alert.service';
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { forkJoin, Subject } from 'rxjs';
@@ -23,7 +24,8 @@ export class PlaylistSongsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private songService: SongService,
-    private playlistService: PlaylistService
+    private playlistService: PlaylistService,
+    private alert: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +52,7 @@ export class PlaylistSongsComponent implements OnInit, OnDestroy {
           this.canciones = [];
         }
       },
-      error: () => {}
+      error: () => { this.alert.error('Error', 'No se pudo cargar la playlist.'); }
     });
   }
 
@@ -61,7 +63,7 @@ export class PlaylistSongsComponent implements OnInit, OnDestroy {
 
     forkJoin(requests).pipe(takeUntil(this.destroy$)).subscribe({
       next: (songsData) => { this.canciones = songsData; },
-      error: () => {}
+      error: () => { this.alert.error('Error', 'No se pudieron cargar las canciones.'); }
     });
   }
 

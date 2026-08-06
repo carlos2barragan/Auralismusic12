@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PlaylistService } from '../../services/playlist.service';
 import { SongService } from '../../services/song.service';
+import { AlertService } from '../../services/alert.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
 import { PlaylistUserComponent } from '../../components/playlist-user/playlist-user.component';
@@ -30,7 +31,8 @@ export class PrivatePlaylistComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private songService: SongService,
-    private playlistService: PlaylistService
+    private playlistService: PlaylistService,
+    private alert: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +53,7 @@ export class PrivatePlaylistComponent implements OnInit, OnDestroy {
         this.canciones = Array.isArray(data.canciones) ? data.canciones : [];
   
       },
-      error: () => {}
+      error: () => { this.alert.error('Error', 'No se pudo cargar la playlist.'); }
     });
   }
 

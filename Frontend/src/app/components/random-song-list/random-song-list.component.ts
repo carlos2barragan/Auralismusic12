@@ -39,14 +39,14 @@ export class RandomSongListComponent implements OnInit {
   fetchSongs() {
     this.songService.getCanciones().subscribe({
       next: (data) => { this.songs = data.filter(song => song.fileUrl); },
-      error: () => {}
+      error: () => { this.alert.error('Error', 'No se pudieron cargar las canciones.'); }
     });
   }
 
   fetchPlaylists() {
     this.playlistService.getPlaylists().subscribe({
       next: (data) => { this.playlists = data || []; },
-      error: () => {}
+      error: () => { console.error('Error al cargar playlists'); }
     });
   }
 
@@ -71,7 +71,7 @@ export class RandomSongListComponent implements OnInit {
         this.alert.notify('success', 'Canción agregada a la playlist');
         this.closeModal();
       },
-      error: () => {}
+      error: () => { this.alert.error('Error', 'No se pudo agregar la canción.'); }
     });
   }
 
@@ -97,7 +97,7 @@ export class RandomSongListComponent implements OnInit {
         this.fetchPlaylists();
         this.closeModal();
       },
-      error: () => {}
+      error: () => { this.alert.error('Error', 'No se pudo crear la playlist.'); }
     });
   }
 

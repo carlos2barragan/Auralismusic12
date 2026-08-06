@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (r.externalUrl) this.spotifyLinks.set(r.id, r.externalUrl);
         if (r.preview) this.spotifyPreviews.set(r.id, r.preview);
       }),
-      error: () => {}
+      error: () => { console.error('Error al enriquecer canciones con Spotify'); }
     });
   }
 
@@ -108,7 +108,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (r.imagen) this.artistImages.set(r.id, r.imagen);
         if (r.externalUrl) this.artistLinks.set(r.id, r.externalUrl);
       }),
-      error: () => {}
+      error: () => { console.error('Error al enriquecer artistas con Spotify'); }
     });
   }
 
