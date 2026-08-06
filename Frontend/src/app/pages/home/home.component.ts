@@ -60,6 +60,29 @@ export class HomeComponent implements OnInit, OnDestroy {
   showAd = false;
   isPremiumUser = false;
 
+  adTitle = '';
+  adDescription = '';
+  adImage = '';
+  adLink = '';
+
+  private SONG_RECS = [
+    { titulo: 'Blinding Lights', descripcion: 'The Weeknd · 4.2M reproducciones · Synth-pop' },
+    { titulo: 'Mi Gente', descripcion: 'J Balvin · 3.4M reproducciones · Reggaetón' },
+    { titulo: 'Bad Guy', descripcion: 'Billie Eilish · 3.1M reproducciones · Pop Alternativo' },
+    { titulo: 'Waka Waka', descripcion: 'Shakira · 3.8M reproducciones · Pop Latino' },
+    { titulo: 'Yellow', descripcion: 'Coldplay · 2.2M reproducciones · Rock Alternativo' },
+    { titulo: 'Levitating', descripcion: 'Dua Lipa · 2.7M reproducciones · Pop / Disco' },
+  ];
+
+  private ARTIST_RECS = [
+    { titulo: 'Bad Bunny', descripcion: '3.3M+ reproducciones · Reggaetón, Latin Urban' },
+    { titulo: 'The Weeknd', descripcion: '6.8M+ reproducciones · R&B, Synth-pop' },
+    { titulo: 'Shakira', descripcion: '4.9M+ reproducciones · Pop Latino' },
+    { titulo: 'Eminem', descripcion: '4.7M+ reproducciones · Hip-Hop' },
+    { titulo: 'Karol G', descripcion: '3.7M+ reproducciones · Reggaetón' },
+    { titulo: 'Dua Lipa', descripcion: '5.1M+ reproducciones · Pop / Disco' },
+  ];
+
   constructor(
     private songService: SongService,
     private spotifyService: SpotifyService,
@@ -86,14 +109,47 @@ export class HomeComponent implements OnInit, OnDestroy {
   private checkPremiumAndAds(): void {
     this.isPremiumUser = this.premiumService.isPremium();
     if (!this.isPremiumUser) {
-      setTimeout(() => { this.showAd = true; }, 8000);
+      setTimeout(() => { this.pickRandomAd(); }, 8000);
+    }
+  }
+
+  private pickRandomAd(): void {
+    const roll = Math.random();
+    if (roll < 0.35) {
+      const rec = this.SONG_RECS[Math.floor(Math.random() * this.SONG_RECS.length)];
+      this.adTitle = `🎵 ${rec.titulo}`;
+      this.adDescription = rec.descripcion;
+      this.adImage = '';
+      this.adLink = '';
+      this.showAd = true;
+    } else if (roll < 0.65) {
+      const rec = this.ARTIST_RECS[Math.floor(Math.random() * this.ARTIST_RECS.length)];
+      this.adTitle = `🎤 ${rec.titulo}`;
+      this.adDescription = rec.descripcion;
+      this.adImage = '';
+      this.adLink = '';
+      this.showAd = true;
+    } else {
+      this.adService.getAnuncios().pipe(takeUntil(this.destroy$)).subscribe({
+        next: (ads) => {
+          const ad = ads[Math.floor(Math.random() * ads.length)];
+          if (ad) {
+            this.adTitle = ad.titulo;
+            this.adDescription = ad.descripcion;
+            this.adImage = ad.imagen || '';
+            this.adLink = ad.enlace || '';
+            this.showAd = true;
+          }
+        },
+        error: () => {}
+      });
     }
   }
 
   onAdClosed(): void {
     this.showAd = false;
     if (!this.isPremiumUser) {
-      setTimeout(() => { this.showAd = true; }, 60000);
+      setTimeout(() => { this.pickRandomAd(); }, 60000);
     }
   }
 

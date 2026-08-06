@@ -210,10 +210,10 @@
 
 <app-ad-modal
   *ngIf="showAd && !isPremiumUser"
-  titulo="¿Cansado de los anuncios?"
-  descripcion="Con Auralis Premium disfruta de música sin interrupciones, audio en alta calidad y descargas ilimitadas."
-  imagen=""
-  enlace=""
+  [titulo]="adTitle"
+  [descripcion]="adDescription"
+  [imagen]="adImage"
+  [enlace]="adLink"
   (closed)="onAdClosed()"
   (upgrade)="onUpgradeClick()">
 </app-ad-modal>
