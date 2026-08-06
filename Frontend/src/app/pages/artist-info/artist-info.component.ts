@@ -9,6 +9,7 @@ import { ArtistService } from '../../services/artist.service';
 import { SongService } from '../../services/song.service';
 import { SpotifyService, SpotifyTrack, SpotifyArtist } from '../../services/spotify.service';
 import { Cancion } from '../../models/cancion.model';
+import { CLOUDINARY } from '../../shared/constants';
 
 @Component({
   selector: 'app-artist-info',
@@ -30,7 +31,7 @@ export class ArtistInfoComponent implements OnInit, OnDestroy {
   loading = true;
   loadingSpotify = false;
 
-  readonly defaultAvatar = 'https://res.cloudinary.com/dbt58u6ag/image/upload/v1740604204/uploads/afo3nyrvyhmn330lq0np.webp';
+  readonly defaultAvatar = CLOUDINARY.defaultAvatar;
 
   constructor(
     private route: ActivatedRoute,

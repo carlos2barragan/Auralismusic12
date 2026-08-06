@@ -5,6 +5,7 @@ import { PlaylistService } from '../../services/playlist.service';
 import { FormsModule } from '@angular/forms';
 import { AlertService } from '../../services/alert.service';
 import { Router } from '@angular/router';
+import { buildCloudinaryUrl } from '../../shared/constants';
 
 @Component({
   selector: 'app-random-song-list',
@@ -100,6 +101,8 @@ export class RandomSongListComponent implements OnInit {
       error: () => { this.alert.error('Error', 'No se pudo crear la playlist.'); }
     });
   }
+
+  songImageUrl(song: any): string { return buildCloudinaryUrl(song?.imagen); }
 
   goToArtist(song: any, e: Event): void {
     e.stopPropagation();

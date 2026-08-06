@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../../services/alert.service';
+import { CLOUDINARY } from '../../shared/constants';
 
 @Component({
   selector: 'app-register',
@@ -15,6 +16,7 @@ import { AlertService } from '../../services/alert.service';
   imports: [CommonModule, ReactiveFormsModule, RouterModule, FormsModule],
 })
 export class RegisterComponent {
+  readonly logoUrl = CLOUDINARY.logo;
   registerForm: FormGroup;
   errorMessage: string | null = null;
   successMessage: string | null = null;

@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { SongService } from '../../services/song.service';
 import { UIStateService } from '../../services/ui-state.service';
 import { catchError, of, Subscription } from 'rxjs';
+import { CLOUDINARY } from '../../shared/constants';
 
 export interface GenreCard {
   name: string;
@@ -21,6 +22,7 @@ export interface GenreCard {
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  readonly logoUrl = CLOUDINARY.logo;
   isOpen = false;
   genres: GenreCard[] = [];
 

@@ -8,6 +8,7 @@ import { SongService } from '../../services/song.service';
 import { SpotifyService, SpotifyTrack, SpotifyArtist } from '../../services/spotify.service';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, of } from 'rxjs';
+import { CLOUDINARY, buildCloudinaryUrl } from '../../shared/constants';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,7 @@ import { debounceTime, distinctUntilChanged, switchMap, catchError, of } from 'r
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  readonly logoUrl = CLOUDINARY.logo;
   menuOpen = false;
   sidebarOpen = false;
 
@@ -132,6 +134,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.spotifyArtists = [];
     this.isSearchOpen = false;
     this.searchLoading = false;
+  }
+
+  songImageUrl(song: any): string {
+    return buildCloudinaryUrl(song?.imagen);
   }
 
   logout() {

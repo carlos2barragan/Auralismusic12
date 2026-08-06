@@ -5,7 +5,7 @@
       <span></span><span></span><span></span>
     </button>
     <a routerLink="/home" class="logo-link">
-      <img src="https://res.cloudinary.com/dbt58u6ag/image/upload/v1740601259/uploads/zwutfwchdyr0qxo0b9vv.png" alt="Auralis" class="logo"/>
+      <img [src]="logoUrl" alt="Auralis" class="logo"/>
     </a>
   </div>
 
@@ -37,7 +37,7 @@
       <ng-container *ngIf="dbResults.length > 0">
         <div class="hs-section-label">En Auralis</div>
         <div class="hs-item" *ngFor="let song of dbResults; let i = index" [style.--i]="i" (click)="playSong(song)">
-          <img *ngIf="song.imagen" [src]="song.imagen.startsWith('http') ? song.imagen : 'https://res.cloudinary.com/dbt58u6ag/image/upload/v1740519430/' + song.imagen" [alt]="song.titulo" class="hs-img"/>
+          <img *ngIf="song.imagen" [src]="songImageUrl(song)" [alt]="song.titulo" class="hs-img"/>
           <div class="hs-fallback-img" *ngIf="!song.imagen">♪</div>
           <div class="hs-body">
             <span class="hs-title">{{ song.titulo || 'Sin título' }}</span>

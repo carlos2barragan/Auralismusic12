@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PlaylistService } from '../../services/playlist.service';
+import { CLOUDINARY } from '../../shared/constants';
 import { PlaylistComponent } from '../../components/playlist/playlist.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SongService } from '../../services/song.service';
@@ -22,7 +23,7 @@ import { AlertService } from '../../services/alert.service';
 export class ProfileComponent implements OnInit {
   user: any = {};
   playlist: any = null;
-  defaultAvatar = 'https://res.cloudinary.com/dbt58u6ag/image/upload/v1740604204/uploads/afo3nyrvyhmn330lq0np.webp';
+  defaultAvatar = CLOUDINARY.defaultAvatar;
 
   activeSection: 'perfil' | 'stats' | 'plan' | 'config' | 'privacidad' = 'perfil';
 

@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
+import { CLOUDINARY } from '../../shared/constants';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ import { AlertService } from '../../services/alert.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  readonly logoUrl = CLOUDINARY.logo;
   loginForm: FormGroup;
   mensaje: string = '';
   passwordVisible: boolean = false;

@@ -8,7 +8,7 @@
       <span class="song-num">{{ i + 1 }}</span>
       <img
         *ngIf="song.imagen"
-        [src]="song.imagen.startsWith('http') ? song.imagen : 'https://res.cloudinary.com/dbt58u6ag/image/upload/v1740519430/' + song.imagen"
+        [src]="songImageUrl(song)"
         [alt]="song.titulo"
         class="song-img"
       />

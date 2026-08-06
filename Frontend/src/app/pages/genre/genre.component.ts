@@ -5,6 +5,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SongService } from '../../services/song.service';
 import { Subscription } from 'rxjs';
+import { buildCloudinaryUrl } from '../../shared/constants';
 
 interface GenreMeta { icon: string; gradient: string; accent: string; }
 
@@ -92,10 +93,7 @@ export class GenreComponent implements OnInit, OnDestroy {
   }
 
   getImageUrl(song: any): string {
-    if (!song?.imagen) return '';
-    return song.imagen.startsWith('http')
-      ? song.imagen
-      : `https://res.cloudinary.com/dbt58u6ag/image/upload/v1740519430/${song.imagen}`;
+    return buildCloudinaryUrl(song?.imagen);
   }
 
   goToArtist(song: any, e: Event): void {

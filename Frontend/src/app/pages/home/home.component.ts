@@ -11,6 +11,7 @@ import { RecentSongsComponent } from '../../components/recent-songs/recent-songs
 import { SongService } from '../../services/song.service';
 import { SpotifyService } from '../../services/spotify.service';
 import { Cancion } from '../../models/cancion.model';
+import { CLOUDINARY, buildCloudinaryUrl } from '../../shared/constants';
 
 @Component({
   selector: 'app-home',
@@ -46,7 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   artistImages    = new Map<string, string>();
   artistLinks     = new Map<string, string>();
 
-  readonly defaultAvatar = 'https://res.cloudinary.com/dbt58u6ag/image/upload/v1740604204/uploads/afo3nyrvyhmn330lq0np.webp';
+  readonly defaultAvatar = CLOUDINARY.defaultAvatar;
   heroTransform = '';
 
   constructor(private songService: SongService, private spotifyService: SpotifyService) {}
@@ -190,11 +191,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getImageUrl(song: any): string {
     const spotify = this.spotifyImages.get(song?._id);
-    if (spotify) return spotify;
-    if (!song?.imagen) return '';
-    return song.imagen.startsWith('http')
-      ? song.imagen
-      : `https://res.cloudinary.com/dbt58u6ag/image/upload/v1740519430/${song.imagen}`;
+    return spotify || buildCloudinaryUrl(song?.imagen);
   }
 
   getArtistImage(artist: any): string {

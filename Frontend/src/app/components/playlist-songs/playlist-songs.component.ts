@@ -6,6 +6,7 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { buildCloudinaryUrl } from '../../shared/constants';
 
 @Component({
   selector: 'app-playlist-songs',
@@ -66,6 +67,8 @@ export class PlaylistSongsComponent implements OnInit, OnDestroy {
       error: () => { this.alert.error('Error', 'No se pudieron cargar las canciones.'); }
     });
   }
+
+  songImageUrl(song: any): string { return buildCloudinaryUrl(song?.imagen); }
 
   seleccionarCancion(song: any): void {
     if (!song?.fileUrl) return;
