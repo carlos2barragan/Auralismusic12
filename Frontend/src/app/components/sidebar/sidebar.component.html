@@ -1,73 +1,58 @@
-<!-- Left-edge hot zone: opens sidebar when mouse reaches the left side of the screen -->
 <div class="edge-trigger" *ngIf="!isOpen" (mouseenter)="open()"></div>
+<div class="sidebar-overlay" [class.open]="isOpen" (click)="close()"></div>
 
-<!-- Backdrop -->
-<div class="sb-backdrop" [class.visible]="isOpen" (click)="close()"></div>
-
-<!-- Drawer -->
 <aside class="sidebar" [class.open]="isOpen">
-
-  <div class="sb-orb"></div>
-  <div class="sb-orb sb-orb-2"></div>
-
-  <!-- Header -->
-  <div class="sb-header">
-    <a routerLink="/home" class="sb-logo-link" (click)="close()">
-      <img
-        [src]="logoUrl"
-        alt="Auralis"
-        class="sb-logo"
-      />
+  <div class="sidebar-header">
+    <a routerLink="/home" (click)="close()">
+      <img [src]="logoUrl" alt="Auralis" class="sidebar-logo"/>
     </a>
-    <button class="sb-close" (click)="close()" aria-label="Cerrar">
+    <button class="sidebar-close" (click)="close()" aria-label="Cerrar">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
         <path d="M18 6L6 18M6 6l12 12"/>
       </svg>
     </button>
   </div>
 
-  <!-- Intro label -->
-  <div class="sb-intro">
-    <span class="sb-intro-title">Explorar géneros</span>
-    <span class="sb-intro-sub">Escucha música por estilo</span>
-  </div>
+  <nav class="sidebar-nav">
+    <a routerLink="/home" class="sidebar-link active" (click)="close()">
+      <span class="nav-icon">🏠</span> Inicio
+    </a>
+    <a routerLink="/playlist" class="sidebar-link" (click)="close()">
+      <span class="nav-icon">📁</span> Playlists
+    </a>
+    <a routerLink="/profile" class="sidebar-link" (click)="close()">
+      <span class="nav-icon">👤</span> Perfil
+    </a>
+  </nav>
 
-  <!-- Genre grid -->
-  <div class="genre-grid" *ngIf="genres.length > 0">
-    <button
-      class="genre-card"
-      *ngFor="let g of genres; let i = index"
-      [style.--i]="i"
-      [style.background]="g.gradient"
-      (click)="goToGenre(g)">
-      <span class="gc-icon">{{ g.icon }}</span>
-      <span class="gc-name">{{ g.name }}</span>
-      <span class="gc-count">{{ g.count }} {{ g.count === 1 ? 'canción' : 'canciones' }}</span>
-      <div class="gc-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </div>
-    </button>
-  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section-title">Géneros</div>
 
-  <!-- Loading skeleton -->
-  <div class="genre-grid" *ngIf="genres.length === 0">
-    <div class="genre-skeleton" *ngFor="let i of [1,2,3,4,5,6]"></div>
-  </div>
-
-  <!-- Admin section -->
-  <div class="sb-admin" *ngIf="isAdmin">
-    <span class="sb-section-label">Administración</span>
-    <a routerLink="/admin/solicitudes" class="sb-admin-btn" (click)="close()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-        <circle cx="9" cy="7" r="4"/>
-        <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
-      </svg>
-      Solicitudes artistas
+  <div class="genre-list" *ngIf="genres.length > 0">
+    <a class="genre-item" *ngFor="let g of genres" (click)="goToGenre(g)">
+      <span class="genre-color" [style.background]="g.accent"></span>
+      {{ g.name }}
+      <span class="genre-count">{{ g.count }}</span>
     </a>
   </div>
 
+  <div class="genre-list" *ngIf="genres.length === 0">
+    <div class="genre-skeleton" *ngFor="let i of [1,2,3,4,5,6]">
+      <div class="genre-skel-color"></div>
+      <div class="genre-skel-text"></div>
+    </div>
+  </div>
 
+  <div class="sidebar-divider" *ngIf="isAdmin"></div>
+  <nav class="sidebar-nav" *ngIf="isAdmin">
+    <a routerLink="/admin/solicitudes" class="sidebar-link" (click)="close()">
+      <span class="nav-icon">⚙️</span> Solicitudes
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a routerLink="/profile" class="premium-banner" (click)="close(); $event.preventDefault();">
+      <span>⭐ Hazte Premium</span>
+    </a>
+  </div>
 </aside>

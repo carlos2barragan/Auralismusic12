@@ -2,220 +2,108 @@
 <app-sidebar></app-sidebar>
 
 <main class="main-content">
-
-  <div class="ambient-layer" aria-hidden="true">
-    <div class="amb-orb amb-1"></div>
-    <div class="amb-orb amb-2"></div>
-    <div class="amb-orb amb-3"></div>
-  </div>
-
-  <!-- ── Hero ── -->
-  <section class="hero" (mousemove)="onHeroMouseMove($event)" (mouseleave)="onHeroMouseLeave()">
-
-    <!-- Deep background layers -->
-    <div class="hero-bg">
-      <div class="hbg-orb hbg-1"></div>
-      <div class="hbg-orb hbg-2"></div>
-      <div class="hbg-orb hbg-3"></div>
-      <div class="hbg-grid"></div>
+  <section class="hero">
+    <p class="hero-greeting">
+      {{ greeting }}<span *ngIf="userName">, <strong class="greeting-name">{{ userName }}</strong></span>
+    </p>
+    <h1 class="hero-title">¿Qué quieres escuchar?</h1>
+    <div class="hero-actions">
+      <button class="btn-primary" (click)="playRandomSong()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" width="16" height="16">
+          <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6"/>
+        </svg>
+        Aleatorio
+      </button>
+      <span class="hero-hint">o explora más abajo</span>
     </div>
 
-    <!-- Floating 3D music notes -->
-    <div class="hero-floats" aria-hidden="true">
-      <span class="fn fn-1">♪</span>
-      <span class="fn fn-2">♫</span>
-      <span class="fn fn-3">♩</span>
-      <span class="fn fn-4">♬</span>
-      <span class="fn fn-5">🎵</span>
-      <span class="fn fn-6">♪</span>
-      <span class="fn fn-7">♫</span>
-    </div>
-
-    <!-- 3D parallax stage -->
-    <div class="hero-stage" [style.transform]="heroTransform">
-
-      <div class="hero-tag">
-        <span class="tag-pulse"></span>
-        Auralis Music
-      </div>
-
-      <p class="hero-greeting">
-        {{ greeting }}<span *ngIf="userName">, <strong class="greeting-name">{{ userName }}</strong></span>
-      </p>
-
-      <h1 class="hero-title">
-        <span class="ht-line ht-line-1">¿Qué quieres</span>
-        <span class="ht-line ht-line-2">
-          <span class="ht-word-em">escuchar</span>
-          <span class="ht-word-plain"> hoy?</span>
-        </span>
-      </h1>
-
-      <div class="hero-actions">
-        <button class="hero-btn-primary" (click)="playRandomSong()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" width="17" height="17">
-            <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6"/>
-          </svg>
-          Reproducción aleatoria
-        </button>
-        <span class="hero-hint">o explora más abajo</span>
-      </div>
-    </div>
-
-    <!-- Now playing bar -->
     <div class="now-bar" *ngIf="selectedArtist">
       <div class="nb-avatar-wrap">
         <img [src]="avatarUrl" [alt]="selectedArtist.nombre" class="nb-avatar"/>
-        <div class="nb-ring"></div>
       </div>
       <div class="nb-info">
         <span class="nb-playing-label">
-          <span class="pulse-dot"></span>
-          Reproduciendo ahora
+          <span class="pulse-dot"></span> Reproduciendo
         </span>
         <span class="nb-song">{{ currentSong?.titulo }}</span>
         <span class="nb-artist">{{ selectedArtist.nombre }}</span>
       </div>
-      <div class="nb-wave" aria-hidden="true">
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
     </div>
   </section>
 
-  <!-- ── Quick access grid ── -->
   <section class="page-section" *ngIf="quickItems.length > 0">
-    <div class="section-hd">
-      <h2 class="section-title">Acceso rápido</h2>
-    </div>
+    <div class="section-hd"><h2 class="section-title">Acceso rápido</h2></div>
     <div class="quick-grid">
-      <button
-        class="qi"
-        *ngFor="let song of quickItems | slice:0:8; let i = index"
-        [style.--i]="i"
-        (click)="playSong(song)">
-        <img
-          *ngIf="getImageUrl(song)"
-          [src]="getImageUrl(song)"
-          [alt]="song.titulo"
-          class="qi-img"
-        />
-        <div class="qi-fallback" *ngIf="!getImageUrl(song)">♪</div>
-        <span class="qi-title">{{ song.titulo }}</span>
-        <div class="qi-play" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M5 3l14 9-14 9V3z"/></svg>
+      <div class="quick-card" *ngFor="let song of quickItems" (click)="playSong(song)">
+        <img [src]="getImageUrl(song)" alt="" class="qc-img"/>
+        <div class="qc-info">
+          <span class="qc-title">{{ song.titulo }}</span>
+          <span class="qc-artist">{{ song.cantante?.cantante || 'Artista' }}</span>
         </div>
-      </button>
-    </div>
-  </section>
-
-  <!-- ── Escuchadas recientemente ── -->
-  <section class="page-section" *ngIf="recentlyPlayed.length > 0">
-    <div class="section-hd">
-      <h2 class="section-title">Escuchadas recientemente</h2>
-    </div>
-    <div class="cards-scroll">
-      <div
-        class="song-card"
-        *ngFor="let song of recentlyPlayed | slice:0:10; let i = index"
-        [style.--i]="i"
-        (click)="playSong(song)">
-        <div class="sc-img-wrap">
-          <img *ngIf="getImageUrl(song)" [src]="getImageUrl(song)" [alt]="song.titulo" class="sc-img"/>
-          <div class="sc-fallback" *ngIf="!getImageUrl(song)">♪</div>
-          <div class="sc-overlay">
-            <div class="sc-play-btn">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M5 3l14 9-14 9V3z"/></svg>
-            </div>
-          </div>
-          <a *ngIf="getSpotifyLink(song._id)" [href]="getSpotifyLink(song._id)" target="_blank"
-             class="sc-spotify-badge" (click)="$event.stopPropagation()">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10">
-              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-            </svg>
-          </a>
-        </div>
-        <span class="sc-title">{{ song.titulo }}</span>
-        <span class="sc-artist">{{ song.cantante?.cantante }}</span>
       </div>
     </div>
   </section>
 
-  <!-- ── Artistas que escuchas ── -->
   <section class="page-section" *ngIf="listenedArtists.length > 0">
-    <div class="section-hd">
-      <h2 class="section-title">Artistas que escuchas</h2>
-    </div>
-    <div class="cards-scroll">
-      <a
-        class="artist-card"
-        *ngFor="let a of listenedArtists; let i = index"
-        [routerLink]="['/artist', a._id]"
-        [style.--i]="i">
-        <div class="arc-img-wrap">
-          <img [src]="getArtistImage(a)" [alt]="a.cantante || a.nombre" class="arc-img"/>
-          <div class="arc-ring"></div>
-          <div class="arc-overlay">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M5 3l14 9-14 9V3z"/></svg>
-          </div>
-        </div>
-        <span class="arc-name">{{ a.cantante || a.nombre }}</span>
-        <span class="arc-label" *ngIf="!artistLinks.get(a._id)">Artista</span>
-        <a *ngIf="artistLinks.get(a._id)" [href]="artistLinks.get(a._id)" target="_blank"
-           class="arc-spotify-badge" (click)="$event.stopPropagation()">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10">
-            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-          </svg>
-          Spotify
-        </a>
+    <div class="section-hd"><h2 class="section-title">Artistas que escuchas</h2></div>
+    <div class="artist-chips">
+      <a class="artist-chip" *ngFor="let a of listenedArtists" [routerLink]="['/artist', a._id]">
+        <img [src]="getArtistImage(a)" [alt]="a.cantante || a.nombre" class="ac-avatar"/>
+        <span class="ac-name">{{ a.cantante || a.nombre }}</span>
       </a>
     </div>
   </section>
 
-  <!-- ── Más escuchadas ── -->
-  <section class="page-section" *ngIf="mostPlayedSongs.length > 0">
-    <div class="section-hd">
-      <h2 class="section-title">
-        <span class="section-icon">🔥</span>
-        Más escuchadas
-      </h2>
-    </div>
-    <app-most-played-songs [songs]="mostPlayedSongs" (songSelected)="playSong($event)"></app-most-played-songs>
-  </section>
-
-  <!-- ── Agregadas recientemente ── -->
-  <section class="page-section" *ngIf="recentSongs.length > 0">
-    <div class="section-hd">
-      <h2 class="section-title">
-        <span class="section-icon">✨</span>
-        Nuevas adiciones
-      </h2>
-    </div>
-    <app-recent-songs [songs]="recentSongs" (songSelected)="playSong($event)"></app-recent-songs>
-  </section>
-
-  <!-- ── Todas las canciones ── -->
   <section class="page-section">
     <div class="section-hd">
-      <h2 class="section-title">
-        <span class="section-icon">🎵</span>
-        Explorar todo
-      </h2>
+      <h2 class="section-title">Más escuchadas</h2>
+      <a routerLink="/" class="see-all">Ver todo →</a>
+    </div>
+    <div class="strip-row">
+      <div class="strip-card" *ngFor="let song of mostPlayedSongs" (click)="playSong(song)">
+        <div class="sc-img-wrap">
+          <img [src]="getImageUrl(song)" [alt]="song.titulo" class="sc-img"/>
+          <div class="sc-play-overlay">
+            <div class="sc-play-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M5 3l14 9-14 9V3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <span class="sc-name">{{ song.titulo }}</span>
+        <span class="sc-artist">{{ song.cantante?.cantante || 'Artista' }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="section-hd">
+      <h2 class="section-title">Recientes</h2>
+      <a routerLink="/" class="see-all">Ver todo →</a>
+    </div>
+    <div class="strip-row">
+      <div class="strip-card" *ngFor="let song of recentSongs" (click)="playSong(song)">
+        <div class="sc-img-wrap">
+          <img [src]="getImageUrl(song)" [alt]="song.titulo" class="sc-img"/>
+          <div class="sc-play-overlay">
+            <div class="sc-play-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M5 3l14 9-14 9V3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <span class="sc-name">{{ song.titulo }}</span>
+        <span class="sc-artist">{{ song.cantante?.cantante || 'Artista' }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="section-hd">
+      <h2 class="section-title">Explorar todo</h2>
     </div>
     <app-random-song-list (songSelected)="onSongSelected($event)"></app-random-song-list>
   </section>
-
 </main>
 
 <app-premium-modal [(show)]="showPremiumModal" (upgraded)="onPremiumUpgraded()"></app-premium-modal>
-
-<app-ad-modal
-  *ngIf="showAd && !isPremiumUser"
-  [titulo]="adTitle"
-  [descripcion]="adDescription"
-  [imagen]="adImage"
-  [enlace]="adLink"
-  (closed)="onAdClosed()"
-  (upgrade)="onUpgradeClick()">
-</app-ad-modal>
-
+<app-ad-modal *ngIf="showAd && !isPremiumUser" [titulo]="adTitle" [descripcion]="adDescription" [imagen]="adImage" [enlace]="adLink" (closed)="onAdClosed()" (upgrade)="onUpgradeClick()"></app-ad-modal>
 <app-following-panel></app-following-panel>

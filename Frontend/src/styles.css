@@ -1,63 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #000000;
-    scrollbar-width: none;
-    margin: 0;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
+:root {
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #111111;
+  --bg-hover: rgba(255,255,255,0.04);
+  --bg-active: rgba(255,255,255,0.06);
+  --border-subtle: rgba(255,255,255,0.06);
+  --border-default: rgba(255,255,255,0.1);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255,255,255,0.6);
+  --text-tertiary: rgba(255,255,255,0.35);
+  --accent: #B2A179;
+  --accent-hover: #c9b98e;
+  --accent-bg: rgba(178,161,121,0.1);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
 
-/* ── SweetAlert2 — Auralis theme ── */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  scrollbar-width: none;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  line-height: 1.5;
+}
+
+::-webkit-scrollbar { display: none; }
+
+/* ── SweetAlert2 ── */
 .aur-popup {
-  border: 1px solid rgba(178,161,121,0.2) !important;
-  border-radius: 18px !important;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(178,161,121,0.08) !important;
+  border: 1px solid var(--border-default) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(178,161,121,0.06) !important;
+  background: var(--bg-secondary) !important;
 }
-.aur-title {
-  color: #ffffff !important;
-  font-size: 20px !important;
-  font-weight: 700 !important;
-}
-.aur-text {
-  color: rgba(200,200,220,0.85) !important;
-}
+.aur-title { color: var(--text-primary) !important; font-size: 18px !important; font-weight: 700 !important; font-family: var(--font-sans) !important; }
+.aur-text { color: var(--text-secondary) !important; font-family: var(--font-sans) !important; }
 .aur-btn-confirm {
-  border-radius: 10px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em !important;
-  box-shadow: 0 4px 16px rgba(178,161,121,0.3) !important;
-}
-.aur-btn-confirm:hover {
-  box-shadow: 0 6px 24px rgba(178,161,121,0.5) !important;
+  border-radius: var(--radius-md) !important; font-weight: 600 !important; font-family: var(--font-sans) !important;
+  background: var(--accent) !important; color: #000 !important;
 }
 .aur-btn-cancel {
-  border-radius: 10px !important;
-  font-weight: 600 !important;
-  border: 1px solid rgba(255,255,255,0.1) !important;
-  color: #aaaacc !important;
+  border-radius: var(--radius-md) !important; font-weight: 500 !important; font-family: var(--font-sans) !important;
+  border: 1px solid var(--border-default) !important; color: var(--text-secondary) !important;
+  background: transparent !important;
 }
 .aur-toast {
-  border: 1px solid rgba(178,161,121,0.18) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.6) !important;
+  border: 1px solid rgba(178,161,121,0.15) !important; border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-md) !important; font-family: var(--font-sans) !important;
 }
-.swal2-timer-progress-bar {
-  background: #B2A179 !important;
-}
-.swal2-icon.swal2-success .swal2-success-ring {
-  border-color: rgba(178,161,121,0.3) !important;
-}
-.swal2-icon.swal2-success [class^='swal2-success-line'] {
-  background-color: #B2A179 !important;
-}
-.swal2-loader {
-  border-color: #B2A179 transparent #B2A179 transparent !important;
-}
+.swal2-timer-progress-bar { background: var(--accent) !important; }
+.swal2-icon.swal2-success .swal2-success-ring { border-color: rgba(178,161,121,0.3) !important; }
+.swal2-icon.swal2-success [class^='swal2-success-line'] { background-color: var(--accent) !important; }
+.swal2-loader { border-color: var(--accent) transparent var(--accent) transparent !important; }
