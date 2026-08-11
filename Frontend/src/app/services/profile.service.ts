@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class ProfileService {
-  private apiUrl = `${environment.apiUrl}/Api/Usuario`;
+  private apiUrl = `${environment.apiUrl}/Api/usuarios`;
 
   constructor(private http: HttpClient) {}
 

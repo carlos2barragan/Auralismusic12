@@ -90,7 +90,7 @@ export class MusicPlayerComponent implements OnInit, OnDestroy {
           const filtered = recent.filter((s: any) => s._id !== (this.currentSong as any)?._id);
           filtered.unshift(this.currentSong);
           localStorage.setItem('recentlyPlayed', JSON.stringify(filtered.slice(0, 15)));
-        } catch {}
+        } catch { /* ignorar errores de parse */ }
       },
       onend: () => {
         if (this.repeatOn) {

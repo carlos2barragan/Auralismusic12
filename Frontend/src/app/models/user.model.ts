@@ -1,16 +1,17 @@
 export interface User {
-  _id: string;       
-  firstname: string; 
-  lastname: string; 
-  email: string;    
-  avatar?: string;  
-  rol: string;       
-  isVerified: boolean; 
+  _id: string;
+  nombre: string;
+  email: string;
+  avatar?: string;
+  rol: string;
+  plan?: string;
+  isVerified: boolean;
 }
 
 export interface RegisterData {
-  email: string;     
-  password: string;  
+  nombre: string;
+  email: string;
+  password: string;
 }
 
 export interface RegisterResponse {

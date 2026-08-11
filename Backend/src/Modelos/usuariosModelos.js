@@ -20,7 +20,8 @@ const usuarioSchema = new mongoose.Schema({
     mostrarHistorial: { type: Boolean, default: true },
     notificaciones: { type: Boolean, default: true }
   },
-  isVerified: { type: Boolean, default: false }
+  isVerified: { type: Boolean, default: false },
+  refreshToken: { type: String, default: null }
 }, { timestamps: true });
 
 const Usuario = mongoose.model("Usuario", usuarioSchema);

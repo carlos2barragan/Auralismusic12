@@ -4,11 +4,11 @@ import tokenValido from "../middlewares/autenticacion.js";
 
 const router = express.Router();
 
-router.post("/Playlist", tokenValido, playlistController.crear);
-router.get("/Playlist", tokenValido, playlistController.listar);
-router.get("/Playlist/:id", tokenValido, playlistController.ObtenerPorId);
-router.post("/Playlist/:id", tokenValido, playlistController.agregarCancion);
-router.put("/Playlist/:id", tokenValido, playlistController.Actualizar);
-router.delete("/Playlist/:id", tokenValido, playlistController.Eliminar);
+router.post("/playlists", tokenValido, playlistController.crear);
+router.get("/playlists", tokenValido, playlistController.listar);
+router.get("/playlists/:id", tokenValido, playlistController.ObtenerPorId);
+router.post("/playlists/:id", tokenValido, playlistController.agregarCancion);
+router.put("/playlists/:id", tokenValido, playlistController.Actualizar);
+router.delete("/playlists/:id", tokenValido, playlistController.Eliminar);
 
 export default router;

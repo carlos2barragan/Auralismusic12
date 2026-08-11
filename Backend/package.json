@@ -8,6 +8,7 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "start": "node app.js",
+    "lint": "eslint .",
     "seed": "node src/seeders/cancionesSeeders.js",
     "Seed": "node src/seeders/usuariosSeeders.js",
     "See": "node src/seeders/cantantesSeeders.js"
@@ -29,12 +30,12 @@
     "multer": "1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "6.10.0",
-    "sha256": "0.2.0",
-    "streamifier": "^0.1.1",
-    "uuid": "11.0.5"
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
-    "coverage": "^0.4.1",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.1",
+    "globals": "^17.9.0",
     "jest": "^29.7.0",
     "supertest": "^7.0.0"
   }

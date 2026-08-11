@@ -42,10 +42,16 @@ import mongoose from "mongoose";
     const isMatch = await bcrypt.compare(password, usuario.password);
     if (!isMatch) return res.status(401).json({ message: "Credenciales incorrectas." });
 
-    const token = jwt.sign({ id: usuario._id, rol: usuario.rol }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: usuario._id, rol: usuario.rol }, process.env.JWT_SECRET, { expiresIn: "15m" });
+    const refreshToken = jwt.sign({ id: usuario._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+
+    usuario.refreshToken = refreshToken;
+    await usuario.save();
+
     res.status(200).json({
       message: "Inicio de sesión exitoso.",
       token,
+      refreshToken,
       user: {
         _id: usuario._id,
         nombre: usuario.nombre,
@@ -341,4 +347,38 @@ const obtenerSeguidos = async (req, res) => {
   }
 };
 
-export default { Registro, login, obtenerUsuarios, obtenerUsuario, actualizarUsuario, eliminarUsuario, updateUserRole, obtenerStats, registrarPlay, actualizarConfig, cambiarPassword, verificarEmail, seguirUsuario, dejarDeSeguir, obtenerFollowers, obtenerFollowing, isFollowing, upgradeToPremium, obtenerSeguidos };
+const refrescarToken = async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) return res.status(400).json({ message: "Refresh token requerido" });
+
+    const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+    const usuario = await Usuario.findById(decoded.id);
+    if (!usuario || usuario.refreshToken !== refreshToken) {
+      return res.status(401).json({ message: "Refresh token inválido" });
+    }
+
+    const newToken = jwt.sign({ id: usuario._id, rol: usuario.rol }, process.env.JWT_SECRET, { expiresIn: "15m" });
+    const newRefreshToken = jwt.sign({ id: usuario._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+
+    usuario.refreshToken = newRefreshToken;
+    await usuario.save();
+
+    res.status(200).json({ token: newToken, refreshToken: newRefreshToken });
+  } catch (error) {
+    res.status(401).json({ message: "Refresh token inválido o expirado" });
+  }
+};
+
+const cerrarSesion = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message: "ID no válido" });
+    await Usuario.findByIdAndUpdate(id, { refreshToken: null });
+    res.status(200).json({ message: "Sesión cerrada" });
+  } catch (error) {
+    res.status(500).json({ message: "Error al cerrar sesión" });
+  }
+};
+
+export default { Registro, login, obtenerUsuarios, obtenerUsuario, actualizarUsuario, eliminarUsuario, updateUserRole, obtenerStats, registrarPlay, actualizarConfig, cambiarPassword, verificarEmail, seguirUsuario, dejarDeSeguir, obtenerFollowers, obtenerFollowing, isFollowing, upgradeToPremium, obtenerSeguidos, refrescarToken, cerrarSesion };

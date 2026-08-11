@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError, of } from 'rxjs';
-import { User, RegisterData, RegisterResponse } from '../models/user.model';
+import { RegisterData, RegisterResponse } from '../models/user.model';
 import { tap, catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ export class UserService {
   ) {}
 
   register(registerData: RegisterData): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${this.apiUrl}/Registro`, registerData).pipe(
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/registro`, registerData).pipe(
       tap((response: RegisterResponse) => {
         if (response?.user?._id && response.token) {
           localStorage.setItem('userId', response.user._id);
@@ -52,49 +52,49 @@ export class UserService {
   }
 
   fetchUserProfile(userId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/Usuario/${userId}`).pipe(
+    return this.http.get<any>(`${this.apiUrl}/usuarios/${userId}`).pipe(
       catchError(this.handleError<any>('Error al obtener el perfil'))
     );
   }
 
   updateUserRole(userId: string, role: string): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/usuario/${userId}/rol`, { role }).pipe(
+    return this.http.patch(`${this.apiUrl}/usuarios/${userId}/rol`, { role }).pipe(
       catchError(this.handleError<any>('Error al actualizar el rol'))
     );
   }
 
   solicitarArtista(userId: string): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/Usuario/${userId}/solicitar-artista`, {}).pipe(
+    return this.http.patch(`${this.apiUrl}/usuarios/${userId}/solicitar-artista`, {}).pipe(
       catchError(this.handleError<any>('Error al solicitar artista'))
     );
   }
 
   updateProfile(userId: string, data: { nombre?: string; email?: string; avatar?: string }): Observable<any> {
-    return this.http.put(`${this.apiUrl}/Usuario/${userId}`, data).pipe(
+    return this.http.put(`${this.apiUrl}/usuarios/${userId}`, data).pipe(
       catchError(this.handleError<any>('Error al actualizar perfil'))
     );
   }
 
   changePassword(userId: string, passwordActual: string, passwordNueva: string): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/Usuario/${userId}/password`, { passwordActual, passwordNueva }).pipe(
+    return this.http.patch(`${this.apiUrl}/usuarios/${userId}/password`, { passwordActual, passwordNueva }).pipe(
       catchError(this.handleError<any>('Error al cambiar contraseña'))
     );
   }
 
   getStats(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/Usuario/${userId}/stats`).pipe(
+    return this.http.get(`${this.apiUrl}/usuarios/${userId}/stats`).pipe(
       catchError(this.handleError<any>('Error al obtener estadísticas'))
     );
   }
 
   registerPlay(userId: string, song: { cancionId: string; titulo: string; cantante: string; genero: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/Usuario/${userId}/play`, song).pipe(
+    return this.http.post(`${this.apiUrl}/usuarios/${userId}/play`, song).pipe(
       catchError(() => of(null))
     );
   }
 
   updateConfig(userId: string, config: { perfilPublico?: boolean; mostrarHistorial?: boolean; notificaciones?: boolean }): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/Usuario/${userId}/config`, { config }).pipe(
+    return this.http.patch(`${this.apiUrl}/usuarios/${userId}/config`, { config }).pipe(
       catchError(this.handleError<any>('Error al actualizar configuración'))
     );
   }

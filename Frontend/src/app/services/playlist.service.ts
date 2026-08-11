@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class PlaylistService {
-  private apiUrl = `${environment.apiUrl}/Api/Playlist`;
+  private apiUrl = `${environment.apiUrl}/Api/playlists`;
   private http = inject(HttpClient);
 
   getPlaylists(): Observable<any[]> {

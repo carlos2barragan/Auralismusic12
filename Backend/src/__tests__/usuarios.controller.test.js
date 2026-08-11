@@ -1,19 +1,31 @@
 import { describe, expect, it, jest, beforeEach } from "@jest/globals";
 import mongoose from "mongoose";
 
-jest.unstable_mockModule("../Modelos/usuariosModelos.js", () => ({
-  default: {
-    find: jest.fn(),
-    findOne: jest.fn(),
-    findById: jest.fn(),
-    findByIdAndUpdate: jest.fn(),
-    findByIdAndDelete: jest.fn(),
-  },
-}));
+jest.unstable_mockModule("../Modelos/usuariosModelos.js", () => {
+  const MockUsuario = class {
+    constructor(d) {
+      Object.assign(this, d);
+      this.rol = this.rol || "usuario";
+      this.save = jest.fn().mockResolvedValue(this);
+    }
+    static findOne = jest.fn();
+    static find = jest.fn();
+    static findById = jest.fn();
+    static findByIdAndUpdate = jest.fn();
+    static findByIdAndDelete = jest.fn();
+  };
+  return { default: MockUsuario };
+});
 
 jest.unstable_mockModule("../Modelos/cantanteModelos.js", () => ({
   default: {
     findOne: jest.fn(),
+  },
+}));
+
+jest.unstable_mockModule("../Modelos/cancionesModelos.js", () => ({
+  default: {
+    findByIdAndUpdate: jest.fn(),
   },
 }));
 
@@ -45,18 +57,6 @@ describe("REGISTRO DE USUARIO", () => {
   it("Deberia registrar un usuario exitosamente", async () => {
     Usuario.findOne.mockResolvedValue(null);
     const saveMock = jest.fn().mockResolvedValue(undefined);
-    jest.unstable_mockModule("../Modelos/usuariosModelos.js", () => ({
-      default: class {
-        constructor(d) { Object.assign(this, d); this._id = validId; this.rol = "usuario"; this.save = saveMock; }
-        static findOne = jest.fn().mockResolvedValue(null);
-        static find = jest.fn();
-        static findById = jest.fn();
-        static findByIdAndUpdate = jest.fn();
-        static findByIdAndDelete = jest.fn();
-      },
-    }));
-
-    Usuario.findOne.mockResolvedValue(null);
 
     const req = { body: { nombre: "Carlos", email: "carlos@test.com", password: "123456" } };
     const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
@@ -120,7 +120,7 @@ describe("LOGIN", () => {
   });
 
   it("Deberia hacer login exitosamente", async () => {
-    const mockUser = { _id: validId, nombre: "Carlos", email: "carlos@test.com", password: "hashedPassword", rol: "usuario" };
+    const mockUser = { _id: validId, nombre: "Carlos", email: "carlos@test.com", password: "hashedPassword", rol: "usuario", refreshToken: null, save: jest.fn().mockResolvedValue(undefined) };
     Usuario.findOne.mockResolvedValue(mockUser);
     bcrypt.compare.mockResolvedValue(true);
     process.env.JWT_SECRET = "test_secret";
@@ -137,7 +137,7 @@ describe("LOGIN", () => {
 describe("OBTENER USUARIOS", () => {
   it("Deberia listar todos los usuarios", async () => {
     const mockUsuarios = [{ _id: validId, nombre: "Carlos", email: "carlos@test.com" }];
-    Usuario.find.mockResolvedValue(mockUsuarios);
+    Usuario.find.mockReturnValue({ select: jest.fn().mockResolvedValue(mockUsuarios) });
 
     const req = {};
     const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
@@ -148,7 +148,7 @@ describe("OBTENER USUARIOS", () => {
   });
 
   it("Deberia retornar 500 si ocurre un error", async () => {
-    Usuario.find.mockRejectedValue(new Error("DB error"));
+    Usuario.find.mockReturnValue({ select: jest.fn().mockRejectedValue(new Error("DB error")) });
 
     const req = {};
     const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
@@ -161,7 +161,7 @@ describe("OBTENER USUARIOS", () => {
 describe("OBTENER USUARIO POR ID", () => {
   it("Deberia retornar el usuario cuando el ID es válido", async () => {
     const mockUsuario = { _id: validId, nombre: "Carlos" };
-    Usuario.findById.mockReturnValue({ populate: jest.fn().mockResolvedValue(mockUsuario) });
+    Usuario.findById.mockReturnValue({ populate: jest.fn().mockReturnValue({ select: jest.fn().mockResolvedValue(mockUsuario) }) });
 
     const req = { params: { id: validId } };
     const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
@@ -181,7 +181,7 @@ describe("OBTENER USUARIO POR ID", () => {
   });
 
   it("Deberia retornar 404 si el usuario no existe", async () => {
-    Usuario.findById.mockReturnValue({ populate: jest.fn().mockResolvedValue(null) });
+    Usuario.findById.mockReturnValue({ populate: jest.fn().mockReturnValue({ select: jest.fn().mockResolvedValue(null) }) });
 
     const req = { params: { id: validId } };
     const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };
@@ -192,7 +192,7 @@ describe("OBTENER USUARIO POR ID", () => {
   });
 
   it("Deberia retornar 500 si ocurre un error", async () => {
-    Usuario.findById.mockReturnValue({ populate: jest.fn().mockRejectedValue(new Error("DB error")) });
+    Usuario.findById.mockReturnValue({ populate: jest.fn().mockReturnValue({ select: jest.fn().mockRejectedValue(new Error("DB error")) }) });
 
     const req = { params: { id: validId } };
     const res = { json: jest.fn(), status: jest.fn().mockReturnThis() };

@@ -51,7 +51,7 @@ export class SubirCancionComponent implements OnInit, OnDestroy {
     try {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       if (user?.nombre) this.cancionForm.patchValue({ cantante: user.nombre });
-    } catch {}
+    } catch { /* ignorar errores de parse */ }
   }
 
   seleccionarArchivo(event: Event, tipo: 'song' | 'image'): void {

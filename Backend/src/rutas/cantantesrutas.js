@@ -5,10 +5,10 @@ import verificarRoles from "../middlewares/verificarRole.js";
 
 const router = express.Router();
 
-router.post("/Cantante", tokenValido, verificarRoles(["administrador"]), cantanteController.crearCantante);
-router.get("/Cantante", cantanteController.listarCantantes);
-router.get("/Cantante/:id", cantanteController.obtenerCantante);
-router.put("/Cantante/:id", tokenValido, verificarRoles(["administrador", "cantante"]), cantanteController.actualizarCantante);
-router.delete("/Cantante/:id", tokenValido, verificarRoles(["administrador"]), cantanteController.eliminarCantante);
+router.post("/cantantes", tokenValido, verificarRoles(["administrador"]), cantanteController.crearCantante);
+router.get("/cantantes", cantanteController.listarCantantes);
+router.get("/cantantes/:id", cantanteController.obtenerCantante);
+router.put("/cantantes/:id", tokenValido, verificarRoles(["administrador", "cantante"]), cantanteController.actualizarCantante);
+router.delete("/cantantes/:id", tokenValido, verificarRoles(["administrador"]), cantanteController.eliminarCantante);
 
 export default router;

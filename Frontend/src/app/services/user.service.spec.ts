@@ -46,7 +46,7 @@ describe('UserService', () => {
       expect(res.user._id).toBe('u1');
     });
 
-    const req = httpMock.expectOne((r) => r.url.includes('/Registro'));
+    const req = httpMock.expectOne((r) => r.url.includes('/registro'));
     expect(req.request.method).toBe('POST');
     req.flush(mockResponse);
 
